@@ -2,13 +2,13 @@
   "name": "vapi-dealership-railway",
   "version": "1.0.0",
   "description": "Car dealership AI voice agent backend",
-  "main": "test-server.js",
+  "main": "src/server.js",
   "engines": {
     "node": "18.x"
   },
   "scripts": {
-    "start": "node test-server.js",
-    "dev": "nodemon test-server.js",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": ["vapi", "voice-ai", "dealership", "demo"],
