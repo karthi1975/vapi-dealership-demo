@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const supabase = require('../services/supabase');
 
 // Squad Configuration
 const SQUAD_CONFIG = {
@@ -118,11 +119,32 @@ router.post('/webhook', async (req, res) => {
         if (event === 'call-started') {
             console.log('🚗 Squad call started:', call?.id);
             console.log('👤 Customer:', call?.customer?.number);
+            
+            // Create call record in database
+            const callData = {
+                phone_number: call?.customer?.number,
+                start_time: new Date().toISOString(),
+                status: 'active'
+            };
+            
+            const callRecord = await supabase.createCall(callData);
+            console.log('📝 Call record created:', callRecord?.id);
         }
         
         if (event === 'transfer-requested') {
             const { fromAgent, toAgent, reason } = req.body;
             console.log(`🔄 Transfer: ${fromAgent} → ${toAgent} (${reason})`);
+            
+            // Log transfer in database
+            const transferData = {
+                call_id: conversationContext?.callId,
+                from_agent: fromAgent,
+                to_agent: toAgent,
+                reason: reason,
+                conversation_context: conversationContext
+            };
+            
+            await supabase.logTransfer(transferData);
             
             // Update conversation context
             const updatedContext = {
@@ -148,6 +170,17 @@ router.post('/webhook', async (req, res) => {
             console.log('📞 Squad call ended:', call?.id);
             console.log('⏱️ Duration:', call?.duration);
             console.log('🔄 Transfers:', conversationContext?.transferHistory?.length || 0);
+            
+            // Update call record with end time and summary
+            const updateData = {
+                end_time: new Date().toISOString(),
+                call_duration: call?.duration,
+                status: 'completed',
+                outcome: conversationContext?.outcome || 'completed',
+                summary: conversationContext?.summary || 'Call completed successfully'
+            };
+            
+            await supabase.updateCall(conversationContext?.callId, updateData);
         }
         
         res.json({ 
@@ -168,11 +201,25 @@ router.post('/webhook', async (req, res) => {
 // Agent Transfer Function
 router.post('/function/transferAgent', async (req, res) => {
     try {
-        const { currentAgent, conversationContext } = req.body;
+        const { currentAgent, conversationContext, callId } = req.body;
         console.log('🔄 Transfer request:', { currentAgent, context: conversationContext });
         
         const nextAgent = determineTransfer(currentAgent, conversationContext);
         console.log(`🔄 Transferring to: ${nextAgent}`);
+        
+        // Log intent in database
+        const intentData = {
+            call_id: callId,
+            intent_type: 'transfer',
+            confidence: 0.95,
+            details: {
+                fromAgent: currentAgent,
+                toAgent: nextAgent,
+                reason: conversationContext?.transferReason || 'specialized_assistance'
+            }
+        };
+        
+        await supabase.logIntent(intentData);
         
         res.json({
             result: `I'll transfer you to our ${SQUAD_CONFIG[nextAgent].name} who can better assist you with that.`,
@@ -194,8 +241,30 @@ router.post('/function/transferAgent', async (req, res) => {
 // Agent Specialization Functions
 router.post('/function/leadQualification', async (req, res) => {
     try {
-        const { customerInfo } = req.body;
+        const { customerInfo, callId } = req.body;
         console.log('🔍 Lead qualification:', customerInfo);
+        
+        // Log customer intent
+        const intentData = {
+            call_id: callId,
+            intent_type: 'lead_qualification',
+            confidence: 0.90,
+            details: customerInfo
+        };
+        
+        await supabase.logIntent(intentData);
+        
+        // Create or update customer record
+        if (customerInfo.phoneNumber) {
+            let customer = await supabase.getCustomerByPhone(customerInfo.phoneNumber);
+            if (!customer) {
+                customer = await supabase.createCustomer({
+                    phone_number: customerInfo.phoneNumber,
+                    name: customerInfo.name,
+                    email: customerInfo.email
+                });
+            }
+        }
         
         res.json({
             result: "I'd be happy to help you find the perfect vehicle! Let me ask a few quick questions to better understand your needs. What type of vehicle are you looking for, and do you have a budget in mind?"
@@ -256,6 +325,55 @@ router.post('/function/financeConsultation', async (req, res) => {
         console.error('❌ Finance consultation error:', error);
         res.json({
             result: "Let me connect you with our finance specialist."
+        });
+    }
+});
+
+// Analytics and Reporting Routes
+router.get('/analytics/calls', async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        const dateRange = {
+            start: startDate || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+            end: endDate || new Date().toISOString()
+        };
+        
+        const analytics = await supabase.getCallAnalytics(dateRange);
+        res.json({
+            success: true,
+            analytics: analytics
+        });
+        
+    } catch (error) {
+        console.error('❌ Analytics error:', error);
+        res.status(500).json({ 
+            error: 'Failed to get analytics',
+            message: error.message 
+        });
+    }
+});
+
+router.get('/analytics/agent/:agentName', async (req, res) => {
+    try {
+        const { agentName } = req.params;
+        const { startDate, endDate } = req.query;
+        const dateRange = {
+            start: startDate || new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString(),
+            end: endDate || new Date().toISOString()
+        };
+        
+        const performance = await supabase.getAgentPerformance(agentName, dateRange);
+        res.json({
+            success: true,
+            agentName,
+            performance: performance
+        });
+        
+    } catch (error) {
+        console.error('❌ Agent performance error:', error);
+        res.status(500).json({ 
+            error: 'Failed to get agent performance',
+            message: error.message 
         });
     }
 });
