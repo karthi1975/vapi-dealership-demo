@@ -10,6 +10,21 @@ router.post('/function/leadQualification', async (req, res) => {
         const { customerInfo, callId, conversationContext } = req.body;
         console.log('🔍 Lead qualification tool called:', { customerInfo, callId });
 
+        // Validate required parameters
+        if (!customerInfo || !callId) {
+            console.log('❌ Missing required parameters');
+            return res.json({
+                result: "I'd be happy to help you find the perfect vehicle! What type of car are you looking for?",
+                qualification: {
+                    qualified: false,
+                    intent: 'unknown',
+                    urgency: 'low',
+                    budget: 0
+                },
+                nextAgent: 'followUpAgent'
+            });
+        }
+
         // Log customer intent
         const intentData = {
             call_id: callId,
@@ -73,14 +88,8 @@ router.post('/function/salesConsultation', async (req, res) => {
 
         await supabase.logVehicleInterest(interestData);
 
-        // Check inventory for matches
-        const inventoryResponse = await fetch(`${process.env.RAILWAY_URL || 'https://vapi-dealership-demo-production.up.railway.app'}/api/inventory/search`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(interestData)
-        });
-
-        const inventory = await inventoryResponse.json();
+        // Check inventory for matches (simplified for now)
+        const inventory = [];
 
         res.json({
             result: `Great! I can see you're interested in ${vehicleInterest?.make || 'a vehicle'}. We have some excellent options that match your criteria. Would you like to schedule a test drive or discuss financing options?`,
