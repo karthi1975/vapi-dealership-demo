@@ -57,7 +57,14 @@ app.get('/health', (req, res) => {
             googleSheets: !!process.env.SPREADSHEET_ID ? 'configured' : 'missing',
             groq: !!process.env.GROQ_API_KEY ? 'configured' : 'missing'
         },
-        webhookUrl: vapiConfigured ? `${req.protocol}://${req.get('host')}/vapi/webhook` : null
+        webhookUrl: vapiConfigured ? `${req.protocol}://${req.get('host')}/vapi/webhook` : null,
+        debug: {
+            vapi_api_key_exists: !!process.env.VAPI_API_KEY,
+            vapi_phone_exists: !!process.env.VAPI_PHONE_NUMBER,
+            supabase_url_exists: !!process.env.SUPABASE_URL,
+            spreadsheet_id_exists: !!process.env.SPREADSHEET_ID,
+            groq_api_key_exists: !!process.env.GROQ_API_KEY
+        }
     });
 });
 
