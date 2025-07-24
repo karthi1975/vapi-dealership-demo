@@ -4,6 +4,7 @@ class SupabaseService {
     constructor() {
         this.client = null;
         this.initialized = false;
+        this.connectionTested = false;
         
         if (process.env.SUPABASE_URL && process.env.SUPABASE_ANON_KEY) {
             this.client = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_ANON_KEY);
@@ -14,40 +15,65 @@ class SupabaseService {
         }
     }
 
-    // Test connection
+    // Test connection with timeout
     async testConnection() {
         if (!this.initialized) {
             console.log('❌ Supabase not initialized');
             return false;
         }
 
+        if (this.connectionTested) {
+            return true;
+        }
+
         try {
-            const { data, error } = await this.client
+            // Set a timeout for the connection test
+            const timeoutPromise = new Promise((_, reject) => {
+                setTimeout(() => reject(new Error('Connection timeout')), 5000);
+            });
+
+            const testPromise = this.client
                 .from('customers')
                 .select('count')
                 .limit(1);
-            
-            if (error) {
-                console.log('❌ Supabase connection test failed:', error.message);
-                return false;
-            }
+
+            await Promise.race([testPromise, timeoutPromise]);
             
             console.log('✅ Supabase connection test successful');
+            this.connectionTested = true;
             return true;
         } catch (error) {
-            console.log('❌ Supabase connection error:', error.message);
+            console.log('❌ Supabase connection test failed:', error.message);
+            this.connectionTested = false;
             return false;
+        }
+    }
+
+    // Safe database operation with fallback
+    async safeOperation(operation, fallbackValue = null) {
+        if (!this.initialized) {
+            console.log('⚠️ Supabase not initialized, using fallback');
+            return fallbackValue;
+        }
+
+        // Test connection first
+        const isConnected = await this.testConnection();
+        if (!isConnected) {
+            console.log('⚠️ Supabase connection failed, using fallback');
+            return fallbackValue;
+        }
+
+        try {
+            return await operation();
+        } catch (error) {
+            console.log('❌ Database operation failed:', error.message);
+            return fallbackValue;
         }
     }
 
     // Create customer
     async createCustomer(customerData) {
-        if (!this.initialized) {
-            console.log('⚠️ Supabase not initialized, skipping customer creation');
-            return null;
-        }
-
-        try {
+        return this.safeOperation(async () => {
             const { data, error } = await this.client
                 .from('customers')
                 .insert([customerData])
@@ -61,20 +87,12 @@ class SupabaseService {
 
             console.log('✅ Customer created:', data.id);
             return data;
-        } catch (error) {
-            console.log('❌ Error creating customer:', error.message);
-            return null;
-        }
+        });
     }
 
     // Get customer by phone
     async getCustomerByPhone(phoneNumber) {
-        if (!this.initialized) {
-            console.log('⚠️ Supabase not initialized, skipping customer lookup');
-            return null;
-        }
-
-        try {
+        return this.safeOperation(async () => {
             const { data, error } = await this.client
                 .from('customers')
                 .select('*')
@@ -87,20 +105,12 @@ class SupabaseService {
             }
 
             return data || null;
-        } catch (error) {
-            console.log('❌ Error getting customer:', error.message);
-            return null;
-        }
+        });
     }
 
     // Create call record
     async createCall(callData) {
-        if (!this.initialized) {
-            console.log('⚠️ Supabase not initialized, skipping call creation');
-            return null;
-        }
-
-        try {
+        return this.safeOperation(async () => {
             const { data, error } = await this.client
                 .from('calls')
                 .insert([callData])
@@ -114,20 +124,12 @@ class SupabaseService {
 
             console.log('✅ Call created:', data.id);
             return data;
-        } catch (error) {
-            console.log('❌ Error creating call:', error.message);
-            return null;
-        }
+        });
     }
 
     // Update call record
     async updateCall(callId, updateData) {
-        if (!this.initialized) {
-            console.log('⚠️ Supabase not initialized, skipping call update');
-            return null;
-        }
-
-        try {
+        return this.safeOperation(async () => {
             const { data, error } = await this.client
                 .from('calls')
                 .update(updateData)
@@ -142,20 +144,12 @@ class SupabaseService {
 
             console.log('✅ Call updated:', callId);
             return data;
-        } catch (error) {
-            console.log('❌ Error updating call:', error.message);
-            return null;
-        }
+        });
     }
 
     // Log transfer
     async logTransfer(transferData) {
-        if (!this.initialized) {
-            console.log('⚠️ Supabase not initialized, skipping transfer log');
-            return null;
-        }
-
-        try {
+        return this.safeOperation(async () => {
             const { data, error } = await this.client
                 .from('call_transfers')
                 .insert([transferData])
@@ -169,20 +163,12 @@ class SupabaseService {
 
             console.log('✅ Transfer logged:', data.id);
             return data;
-        } catch (error) {
-            console.log('❌ Error logging transfer:', error.message);
-            return null;
-        }
+        });
     }
 
     // Log intent
     async logIntent(intentData) {
-        if (!this.initialized) {
-            console.log('⚠️ Supabase not initialized, skipping intent log');
-            return null;
-        }
-
-        try {
+        return this.safeOperation(async () => {
             const { data, error } = await this.client
                 .from('customer_intents')
                 .insert([intentData])
@@ -196,20 +182,12 @@ class SupabaseService {
 
             console.log('✅ Intent logged:', data.id);
             return data;
-        } catch (error) {
-            console.log('❌ Error logging intent:', error.message);
-            return null;
-        }
+        });
     }
 
     // Log vehicle interest
     async logVehicleInterest(interestData) {
-        if (!this.initialized) {
-            console.log('⚠️ Supabase not initialized, skipping vehicle interest log');
-            return null;
-        }
-
-        try {
+        return this.safeOperation(async () => {
             const { data, error } = await this.client
                 .from('vehicle_interests')
                 .insert([interestData])
@@ -223,20 +201,12 @@ class SupabaseService {
 
             console.log('✅ Vehicle interest logged:', data.id);
             return data;
-        } catch (error) {
-            console.log('❌ Error logging vehicle interest:', error.message);
-            return null;
-        }
+        });
     }
 
     // Create test drive booking
     async createTestDriveBooking(bookingData) {
-        if (!this.initialized) {
-            console.log('⚠️ Supabase not initialized, skipping test drive booking');
-            return null;
-        }
-
-        try {
+        return this.safeOperation(async () => {
             const { data, error } = await this.client
                 .from('test_drive_bookings')
                 .insert([bookingData])
@@ -250,20 +220,12 @@ class SupabaseService {
 
             console.log('✅ Test drive booking created:', data.id);
             return data;
-        } catch (error) {
-            console.log('❌ Error creating test drive booking:', error.message);
-            return null;
-        }
+        });
     }
 
     // Create financing application
     async createFinancingApplication(applicationData) {
-        if (!this.initialized) {
-            console.log('⚠️ Supabase not initialized, skipping financing application');
-            return null;
-        }
-
-        try {
+        return this.safeOperation(async () => {
             const { data, error } = await this.client
                 .from('financing_applications')
                 .insert([applicationData])
@@ -277,25 +239,12 @@ class SupabaseService {
 
             console.log('✅ Financing application created:', data.id);
             return data;
-        } catch (error) {
-            console.log('❌ Error creating financing application:', error.message);
-            return null;
-        }
+        });
     }
 
     // Get call analytics
     async getCallAnalytics(dateRange) {
-        if (!this.initialized) {
-            console.log('⚠️ Supabase not initialized, returning empty analytics');
-            return {
-                totalCalls: 0,
-                averageDuration: 0,
-                outcomes: {},
-                transfers: 0
-            };
-        }
-
-        try {
+        return this.safeOperation(async () => {
             const { data: calls, error } = await this.client
                 .from('calls')
                 .select('*')
@@ -323,33 +272,19 @@ class SupabaseService {
                 totalCalls,
                 averageDuration: Math.round(averageDuration),
                 outcomes,
-                transfers: 0 // TODO: Add transfer count
-            };
-        } catch (error) {
-            console.log('❌ Error getting call analytics:', error.message);
-            return {
-                totalCalls: 0,
-                averageDuration: 0,
-                outcomes: {},
                 transfers: 0
             };
-        }
+        }, {
+            totalCalls: 0,
+            averageDuration: 0,
+            outcomes: {},
+            transfers: 0
+        });
     }
 
     // Get agent performance
     async getAgentPerformance(agentName, dateRange) {
-        if (!this.initialized) {
-            console.log('⚠️ Supabase not initialized, returning empty performance data');
-            return {
-                agentName,
-                totalCalls: 0,
-                averageDuration: 0,
-                transfers: 0,
-                outcomes: {}
-            };
-        }
-
-        try {
+        return this.safeOperation(async () => {
             const { data: transfers, error } = await this.client
                 .from('call_transfers')
                 .select('*')
@@ -371,20 +306,17 @@ class SupabaseService {
             return {
                 agentName,
                 totalCalls: transfers.length,
-                averageDuration: 0, // TODO: Calculate from call data
+                averageDuration: 0,
                 transfers: transfers.length,
                 outcomes: {}
             };
-        } catch (error) {
-            console.log('❌ Error getting agent performance:', error.message);
-            return {
-                agentName,
-                totalCalls: 0,
-                averageDuration: 0,
-                transfers: 0,
-                outcomes: {}
-            };
-        }
+        }, {
+            agentName,
+            totalCalls: 0,
+            averageDuration: 0,
+            transfers: 0,
+            outcomes: {}
+        });
     }
 }
 
