@@ -2,6 +2,124 @@ const express = require('express');
 const router = express.Router();
 const supabase = require('../services/supabase');
 
+// Root handler for vapi-tools
+router.get('/', (req, res) => {
+    res.json({
+        message: 'VAPI Tools API',
+        version: '1.0.0',
+        endpoints: {
+            toolCalls: 'POST /vapi-tools/tool-calls',
+            functions: {
+                leadQualification: 'POST /vapi-tools/function/leadQualification',
+                checkInventory: 'POST /vapi-tools/function/checkInventory',
+                testDriveScheduling: 'POST /vapi-tools/function/testDriveScheduling'
+            }
+        }
+    });
+});
+
+// VAPI tool-calls webhook handler
+router.post('/tool-calls', async (req, res) => {
+    try {
+        console.log('🔧 VAPI tool-calls webhook received');
+        console.log('📥 Request body:', JSON.stringify(req.body, null, 2));
+        
+        // Extract the tool call from VAPI's format
+        const { message } = req.body;
+        
+        if (!message || !message.toolCalls || !message.toolCalls[0]) {
+            return res.status(400).json({
+                error: 'Invalid tool call format'
+            });
+        }
+        
+        const toolCall = message.toolCalls[0];
+        const functionName = toolCall.function.name;
+        const args = toolCall.function.arguments;
+        
+        console.log(`🛠️ Tool called: ${functionName}`);
+        console.log('📋 Arguments:', args);
+        
+        // Route to the appropriate function
+        switch (functionName) {
+            case 'leadQualification':
+                return handleLeadQualification(args, res);
+            case 'checkInventory':
+                return handleCheckInventory(args, res);
+            case 'testDriveScheduling':
+                return handleTestDriveScheduling(args, res);
+            case 'transferAgent':
+                return handleTransferAgent(args, res);
+            default:
+                return res.status(400).json({
+                    error: `Unknown function: ${functionName}`
+                });
+        }
+        
+    } catch (error) {
+        console.error('❌ Tool-calls webhook error:', error);
+        res.status(500).json({
+            error: 'Internal server error',
+            message: error.message
+        });
+    }
+});
+
+// Handler for leadQualification
+async function handleLeadQualification(args, res) {
+    const { customerInfo, callId } = args;
+    
+    console.log('🔍 Lead qualification processing:', { customerInfo, callId });
+    
+    if (!customerInfo || !callId) {
+        return res.json({
+            results: [{
+                toolCallId: args.toolCallId || 'default',
+                result: "I'd be happy to help you find the perfect vehicle! Could you please provide your information?"
+            }]
+        });
+    }
+    
+    // Process the lead qualification
+    try {
+        // Create or update customer
+        if (customerInfo?.phoneNumber) {
+            let customer = await supabase.getCustomerByPhone(customerInfo.phoneNumber);
+            if (!customer) {
+                customer = await supabase.createCustomer({
+                    phone_number: customerInfo.phoneNumber,
+                    name: customerInfo.name || null,
+                    email: customerInfo.email || null
+                });
+                console.log('✅ Customer created:', customer?.id);
+            }
+        }
+        
+        const qualification = {
+            qualified: customerInfo?.budget > 20000 || customerInfo?.urgency === 'high',
+            intent: customerInfo?.intent || 'browse',
+            urgency: customerInfo?.urgency || 'low',
+            budget: customerInfo?.budget || 0
+        };
+        
+        return res.json({
+            results: [{
+                toolCallId: args.toolCallId || 'default',
+                result: `Thank you ${customerInfo.name || ''}! Based on your needs, I can help you find the perfect vehicle. What type of car are you looking for?`
+            }]
+        });
+        
+    } catch (error) {
+        console.error('❌ Lead qualification error:', error);
+        return res.json({
+            results: [{
+                toolCallId: args.toolCallId || 'default',
+                result: "I'd be happy to help you find the perfect vehicle!"
+            }]
+        });
+    }
+}
+
 // Test Supabase connection
 router.get('/test-connection', async (req, res) => {
     const isConnected = await supabase.testConnection();
