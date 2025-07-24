@@ -37,12 +37,14 @@ const vapiRoutes = require('./routes/vapi');
 const dashboardRoutes = require('./routes/dashboard');
 const inventoryRoutes = require('./routes/inventory');
 const squadsRoutes = require('./routes/squads');
+const vapiToolsRoutes = require('./routes/vapi-tools');
 
 // Routes
 app.use('/vapi', vapiRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/squads', squadsRoutes);
+app.use('/vapi-tools', vapiToolsRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
