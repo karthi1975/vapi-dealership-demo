@@ -23,7 +23,7 @@ app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
 // CORS configuration
 app.use(cors({
     origin: process.env.NODE_ENV === 'production' 
-        ? ['https://your-domain.com'] 
+        ? ['https://vapi-dealership-demo-production.up.railway.app'] 
         : ['http://localhost:3000', 'http://localhost:3001'],
     credentials: true
 }));
