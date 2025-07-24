@@ -2,13 +2,67 @@ const express = require('express');
 const router = express.Router();
 const supabase = require('../services/supabase');
 
+// Test Supabase connection
+router.get('/test-connection', async (req, res) => {
+    const isConnected = await supabase.testConnection();
+    res.json({ 
+        connected: isConnected,
+        initialized: supabase.initialized,
+        hasClient: !!supabase.client
+    });
+});
+
+// Test direct insert
+router.post('/test-insert', async (req, res) => {
+    try {
+        const testData = {
+            phone_number: '+1' + Date.now().toString().slice(-10),
+            name: 'Test User ' + new Date().toISOString()
+        };
+        
+        console.log('🧪 Testing direct insert:', testData);
+        const result = await supabase.createCustomer(testData);
+        
+        res.json({
+            success: !!result,
+            data: result,
+            testData
+        });
+    } catch (error) {
+        console.error('Test insert error:', error);
+        res.json({
+            success: false,
+            error: error.message
+        });
+    }
+});
+
 // VAPI Tools and Functions for Multi-Agent System
 
 // 1. Lead Qualification Tool
 router.post('/function/leadQualification', async (req, res) => {
     try {
-        const { customerInfo, callId, conversationContext } = req.body;
-        console.log('🔍 Lead qualification tool called:', { customerInfo, callId });
+        console.log('📥 Full request body:', JSON.stringify(req.body, null, 2));
+        console.log('📋 Headers:', req.headers);
+        
+        // VAPI might send parameters in different formats
+        let customerInfo, callId, conversationContext;
+        
+        // Check if parameters are in root level
+        if (req.body.parameters) {
+            ({ customerInfo, callId, conversationContext } = req.body.parameters);
+        } else if (req.body.message && req.body.message.toolCalls) {
+            // VAPI v2 format
+            const toolCall = req.body.message.toolCalls[0];
+            if (toolCall && toolCall.function && toolCall.function.arguments) {
+                ({ customerInfo, callId, conversationContext } = toolCall.function.arguments);
+            }
+        } else {
+            // Direct parameters
+            ({ customerInfo, callId, conversationContext } = req.body);
+        }
+        
+        console.log('🔍 Extracted parameters:', { customerInfo, callId });
 
         // Validate required parameters
         if (!customerInfo || !callId) {
@@ -25,25 +79,40 @@ router.post('/function/leadQualification', async (req, res) => {
             });
         }
 
-        // Log customer intent
+        // Log customer intent (call_id is a string, not UUID in the schema)
         const intentData = {
-            call_id: callId,
+            call_id: callId || 'unknown',  // Ensure it's never null
             intent_type: 'lead_qualification',
             confidence: 0.90,
             details: customerInfo
         };
 
-        await supabase.logIntent(intentData);
+        console.log('📝 Attempting to log intent...');
+        try {
+            await supabase.logIntent(intentData);
+        } catch (error) {
+            console.log('⚠️ Intent logging failed (non-critical):', error.message);
+            // Continue execution - this is not critical
+        }
 
         // Create or update customer record
         if (customerInfo?.phoneNumber) {
+            console.log('🔍 Checking for existing customer:', customerInfo.phoneNumber);
             let customer = await supabase.getCustomerByPhone(customerInfo.phoneNumber);
+            
             if (!customer) {
-                customer = await supabase.createCustomer({
+                console.log('👤 Creating new customer...');
+                const customerData = {
                     phone_number: customerInfo.phoneNumber,
-                    name: customerInfo.name,
-                    email: customerInfo.email
-                });
+                    name: customerInfo.name || null,
+                    email: customerInfo.email || null
+                };
+                console.log('Customer data:', customerData);
+                
+                customer = await supabase.createCustomer(customerData);
+                console.log('Customer creation result:', customer);
+            } else {
+                console.log('✅ Existing customer found:', customer.id);
             }
         }
 
