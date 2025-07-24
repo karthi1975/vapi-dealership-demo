@@ -133,16 +133,36 @@ async function handleLeadQualification(args, res) {
     
     // Process the lead qualification
     try {
-        // Create or update customer
+        // Create or update customer with all information including vehicle preferences
         if (customerInfo?.phoneNumber) {
             let customer = await supabase.getCustomerByPhone(customerInfo.phoneNumber);
+            
+            const customerData = {
+                phone_number: customerInfo.phoneNumber,
+                name: customerInfo.name || null,
+                email: customerInfo.email || null,
+                budget: customerInfo.budget || null,
+                preferred_make: customerInfo.preferredMake || null,
+                preferred_model: customerInfo.preferredModel || null,
+                vehicle_type: customerInfo.vehicleType || null,
+                purchase_timeline: customerInfo.timeline || null
+            };
+            
             if (!customer) {
-                customer = await supabase.createCustomer({
-                    phone_number: customerInfo.phoneNumber,
-                    name: customerInfo.name || null,
-                    email: customerInfo.email || null
-                });
+                console.log('👤 Creating new customer with preferences...');
+                customer = await supabase.createCustomer(customerData);
                 console.log('✅ Customer created:', customer?.id);
+            } else {
+                console.log('📝 Updating existing customer preferences...');
+                // Update existing customer with new preferences
+                customer = await supabase.updateCustomerPreferences(customer.id, {
+                    make: customerInfo.preferredMake,
+                    model: customerInfo.preferredModel,
+                    budget: customerInfo.budget,
+                    vehicleType: customerInfo.vehicleType,
+                    timeline: customerInfo.timeline
+                });
+                console.log('✅ Customer updated:', customer?.id);
             }
         }
         
@@ -153,10 +173,23 @@ async function handleLeadQualification(args, res) {
             budget: customerInfo?.budget || 0
         };
         
+        // Prepare response based on collected information
+        let responseMessage = `Thank you ${customerInfo.name || ''}! `;
+        
+        if (customerInfo.preferredMake || customerInfo.preferredModel) {
+            responseMessage += `I see you're interested in a ${customerInfo.preferredMake || ''} ${customerInfo.preferredModel || ''}. `;
+        }
+        
+        if (customerInfo.budget) {
+            responseMessage += `With your budget of $${customerInfo.budget.toLocaleString()}, we have some great options. `;
+        }
+        
+        responseMessage += "Let me connect you with the right specialist who can help you find the perfect vehicle!";
+        
         return res.json({
             results: [{
                 toolCallId: args.toolCallId || 'default',
-                result: `Thank you ${customerInfo.name || ''}! Based on your needs, I can help you find the perfect vehicle. What type of car are you looking for?`
+                result: responseMessage
             }]
         });
         

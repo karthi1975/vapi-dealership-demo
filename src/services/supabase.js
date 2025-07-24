@@ -67,6 +67,41 @@ class SupabaseService {
         }
     }
 
+    // Update customer with vehicle preferences
+    async updateCustomerPreferences(customerId, preferences) {
+        if (!this.initialized) {
+            console.log('⚠️ Supabase not initialized, skipping customer update');
+            return null;
+        }
+
+        try {
+            const { data, error } = await this.client
+                .from('customers')
+                .update({
+                    preferred_make: preferences.make,
+                    preferred_model: preferences.model,
+                    budget: preferences.budget,
+                    vehicle_type: preferences.vehicleType,
+                    purchase_timeline: preferences.timeline,
+                    updated_at: new Date().toISOString()
+                })
+                .eq('id', customerId)
+                .select()
+                .single();
+
+            if (error) {
+                console.error('❌ Error updating customer preferences:', error);
+                return null;
+            }
+
+            console.log('✅ Customer preferences updated:', data.id);
+            return data;
+        } catch (error) {
+            console.error('❌ Error updating customer preferences:', error);
+            return null;
+        }
+    }
+
     // Get customer by phone
     async getCustomerByPhone(phoneNumber) {
         if (!this.initialized) {
