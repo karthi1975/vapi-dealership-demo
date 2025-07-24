@@ -64,4 +64,22 @@ router.post('/function/checkInventory', async (req, res) => {
     }
 });
 
+// Transfer to human function
+router.post('/function/transferToHuman', async (req, res) => {
+    try {
+        const { reason } = req.body;
+        console.log('🔄 Transfer requested:', reason);
+        
+        res.json({
+            result: "I'll connect you with one of our specialists right away. Please hold for just a moment."
+        });
+        
+    } catch (error) {
+        console.error('❌ Transfer error:', error);
+        res.json({
+            result: "Let me get someone to help you right away."
+        });
+    }
+});
+
 module.exports = router;
