@@ -30,12 +30,28 @@ router.get('/', (req, res) => {
     });
 });
 
-// VAPI tool-calls webhook handler
-router.post('/tool-calls', async (req, res) => {
+// Handle POST to root path (VAPI sends here)
+router.post('/', async (req, res) => {
+    console.log('🔧 VAPI POST to root path received');
+    console.log('📥 Request type:', req.body?.message?.type);
+    
+    // Check if this is a tool-calls message
+    if (req.body?.message?.type === 'tool-calls') {
+        // Forward to tool-calls handler
+        return handleToolCalls(req, res);
+    }
+    
+    res.status(400).json({
+        error: 'Unknown message type',
+        received: req.body?.message?.type
+    });
+});
+
+// Common handler for tool-calls
+async function handleToolCalls(req, res) {
     try {
-        console.log('🔧 VAPI tool-calls webhook received');
+        console.log('🔧 VAPI tool-calls handler processing');
         console.log('📥 Request body:', JSON.stringify(req.body, null, 2));
-        console.log('📋 Headers:', req.headers);
         
         // Extract the tool call from VAPI's format
         const { message } = req.body;
@@ -76,7 +92,10 @@ router.post('/tool-calls', async (req, res) => {
             message: error.message
         });
     }
-});
+}
+
+// VAPI tool-calls webhook handler
+router.post('/tool-calls', handleToolCalls);
 
 // Handler for leadQualification
 async function handleLeadQualification(args, res) {
@@ -128,6 +147,76 @@ async function handleLeadQualification(args, res) {
             results: [{
                 toolCallId: args.toolCallId || 'default',
                 result: "I'd be happy to help you find the perfect vehicle!"
+            }]
+        });
+    }
+}
+
+// Handler for checkInventory
+async function handleCheckInventory(args, res) {
+    const { make, model, year, maxPrice, callId } = args;
+    console.log('🔍 Check inventory processing:', { make, model, year, maxPrice, callId });
+    
+    try {
+        // For now, return a simple response
+        return res.json({
+            results: [{
+                toolCallId: args.toolCallId || 'default',
+                result: "Let me check our inventory for you. We have several vehicles that might interest you."
+            }]
+        });
+    } catch (error) {
+        console.error('❌ Check inventory error:', error);
+        return res.json({
+            results: [{
+                toolCallId: args.toolCallId || 'default',
+                result: "Let me check what vehicles we have available for you."
+            }]
+        });
+    }
+}
+
+// Handler for testDriveScheduling
+async function handleTestDriveScheduling(args, res) {
+    const { preferredTime, vehicle, customerInfo, callId } = args;
+    console.log('📅 Test drive scheduling processing:', { preferredTime, vehicle, callId });
+    
+    try {
+        return res.json({
+            results: [{
+                toolCallId: args.toolCallId || 'default',
+                result: "I'd be happy to schedule a test drive for you. What day and time works best?"
+            }]
+        });
+    } catch (error) {
+        console.error('❌ Test drive scheduling error:', error);
+        return res.json({
+            results: [{
+                toolCallId: args.toolCallId || 'default',
+                result: "Let me help you schedule a test drive."
+            }]
+        });
+    }
+}
+
+// Handler for transferAgent
+async function handleTransferAgent(args, res) {
+    const { currentAgent, conversationContext, callId, reason } = args;
+    console.log('🔄 Transfer agent processing:', { currentAgent, reason, callId });
+    
+    try {
+        return res.json({
+            results: [{
+                toolCallId: args.toolCallId || 'default',
+                result: "I'll connect you with the right person to help you."
+            }]
+        });
+    } catch (error) {
+        console.error('❌ Transfer agent error:', error);
+        return res.json({
+            results: [{
+                toolCallId: args.toolCallId || 'default',
+                result: "Let me transfer you to someone who can better assist."
             }]
         });
     }
