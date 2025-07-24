@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const supabase = require('../services/supabase');
+const { handleTransferToAgent, handleGetCallContext } = require('./vapi-tools-transfer');
 
 // Log all requests to vapi-tools
 router.use((req, res, next) => {
@@ -93,6 +94,10 @@ async function handleToolCalls(req, res) {
                 return handleTestDriveScheduling(args, res);
             case 'transferAgent':
                 return handleTransferAgent(args, res);
+            case 'transferToAgent':
+                return handleTransferToAgent(args, res);
+            case 'getCallContext':
+                return handleGetCallContext(args, res);
             default:
                 return res.status(400).json({
                     error: `Unknown function: ${functionName}`

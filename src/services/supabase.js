@@ -336,6 +336,66 @@ class SupabaseService {
         }
     }
 
+    // Store call context for agent transfers
+    async storeCallContext(contextData) {
+        if (!this.initialized) {
+            console.log('⚠️ Supabase not initialized, skipping context storage');
+            return null;
+        }
+
+        try {
+            const { data, error } = await this.client
+                .from('call_contexts')
+                .upsert([{
+                    call_id: contextData.call_id,
+                    context: contextData.context,
+                    target_agent: contextData.target_agent,
+                    created_at: contextData.timestamp
+                }], {
+                    onConflict: 'call_id'
+                })
+                .select()
+                .single();
+
+            if (error) {
+                console.error('❌ Error storing call context:', error);
+                return null;
+            }
+
+            console.log('✅ Call context stored:', data.call_id);
+            return data;
+        } catch (error) {
+            console.error('❌ Error storing call context:', error);
+            return null;
+        }
+    }
+
+    // Get call context for transferred calls
+    async getCallContext(callId) {
+        if (!this.initialized) {
+            console.log('⚠️ Supabase not initialized, skipping context retrieval');
+            return null;
+        }
+
+        try {
+            const { data, error } = await this.client
+                .from('call_contexts')
+                .select('*')
+                .eq('call_id', callId)
+                .maybeSingle();
+
+            if (error && error.code !== 'PGRST116') {
+                console.error('❌ Error getting call context:', error);
+                return null;
+            }
+
+            return data?.context || null;
+        } catch (error) {
+            console.error('❌ Error getting call context:', error);
+            return null;
+        }
+    }
+
     // Get agent performance
     async getAgentPerformance(agentName, dateRange) {
         if (!this.initialized) {

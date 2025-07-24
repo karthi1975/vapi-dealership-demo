@@ -77,9 +77,20 @@ CREATE TABLE IF NOT EXISTS financing_applications (
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Create call_contexts table for agent transfers
+CREATE TABLE IF NOT EXISTS call_contexts (
+    id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+    call_id VARCHAR(100) UNIQUE NOT NULL,
+    context JSONB NOT NULL,
+    target_agent VARCHAR(50),
+    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+    updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
 -- Create indexes for better performance
 CREATE INDEX idx_customers_phone ON customers(phone_number);
 CREATE INDEX idx_calls_vapi_id ON calls(vapi_call_id);
 CREATE INDEX idx_calls_customer_id ON calls(customer_id);
 CREATE INDEX idx_intents_call_id ON customer_intents(call_id);
 CREATE INDEX idx_transfers_call_id ON call_transfers(call_id);
+CREATE INDEX idx_contexts_call_id ON call_contexts(call_id);
