@@ -36,11 +36,13 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 const vapiRoutes = require('./routes/vapi');
 const dashboardRoutes = require('./routes/dashboard');
 const inventoryRoutes = require('./routes/inventory');
+const squadsRoutes = require('./routes/squads');
 
 // Routes
 app.use('/vapi', vapiRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/inventory', inventoryRoutes);
+app.use('/squads', squadsRoutes);
 
 // Health check endpoint
 app.get('/health', (req, res) => {
