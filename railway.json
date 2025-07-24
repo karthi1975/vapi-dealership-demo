@@ -3,6 +3,9 @@
   "build": {
     "builder": "NIXPACKS"
   },
+  "variables": {
+    "NODE_VERSION": "20"
+  },
   "deploy": {
     "startCommand": "npm start",
     "healthcheckPath": "/health",
