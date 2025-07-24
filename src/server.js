@@ -90,6 +90,13 @@ app.get('/', (req, res) => {
 
 // 404 handler
 app.use('*', (req, res) => {
+    console.log('❌ 404 Not Found:', {
+        method: req.method,
+        url: req.originalUrl,
+        path: req.path,
+        headers: req.headers,
+        body: req.body
+    });
     res.status(404).json({ 
         error: 'Not Found',
         message: `Route ${req.originalUrl} not found`

@@ -2,6 +2,18 @@ const express = require('express');
 const router = express.Router();
 const supabase = require('../services/supabase');
 
+// Log all requests to vapi-tools
+router.use((req, res, next) => {
+    console.log('🔍 VAPI-TOOLS Request:', {
+        method: req.method,
+        path: req.path,
+        fullUrl: req.originalUrl,
+        headers: req.headers,
+        body: req.body
+    });
+    next();
+});
+
 // Root handler for vapi-tools
 router.get('/', (req, res) => {
     res.json({
@@ -23,6 +35,7 @@ router.post('/tool-calls', async (req, res) => {
     try {
         console.log('🔧 VAPI tool-calls webhook received');
         console.log('📥 Request body:', JSON.stringify(req.body, null, 2));
+        console.log('📋 Headers:', req.headers);
         
         // Extract the tool call from VAPI's format
         const { message } = req.body;
