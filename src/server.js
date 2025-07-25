@@ -46,6 +46,13 @@ app.use('/api/inventory', inventoryRoutes);
 app.use('/squads', squadsRoutes);
 app.use('/vapi-tools', vapiToolsRoutes);
 
+// Root POST handler for VAPI - redirect to vapi-tools
+app.post('/', (req, res) => {
+    console.log('📍 Root POST request received, redirecting to /vapi-tools');
+    req.url = '/vapi-tools';
+    vapiToolsRoutes(req, res);
+});
+
 // Health check endpoint
 app.get('/health', (req, res) => {
     const vapiConfigured = !!(process.env.VAPI_API_KEY && process.env.VAPI_PHONE_NUMBER);
