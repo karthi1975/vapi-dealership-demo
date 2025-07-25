@@ -5,7 +5,7 @@ const supabase = require('../services/supabase');
 // Assistant IDs mapping (replace with your actual VAPI assistant IDs)
 const ASSISTANT_IDS = {
     leadQualifier: '1506a9d9-a0d5-4439-9d83-f447bcedda1e',
-    sales: 'your-sales-assistant-id', // Replace with your Sales Agent assistant ID after creating it
+    sales: 'edc301ed-7e86-48a5-8762-d1a584a52c10',
     service: 'your-service-assistant-id',
     finance: 'your-finance-assistant-id',
     parts: 'your-parts-assistant-id',

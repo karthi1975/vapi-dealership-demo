@@ -191,9 +191,20 @@ class SupabaseService {
         }
 
         try {
+            // Ensure we have the proper data structure
+            const transferRecord = {
+                ...transferData,
+                vapi_call_id: transferData.call_id // Store VAPI's string call ID
+            };
+            
+            // Remove the original call_id if it's not a valid UUID
+            if (transferData.call_id && typeof transferData.call_id === 'string' && !transferData.call_id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
+                delete transferRecord.call_id;
+            }
+
             const { data, error } = await this.client
                 .from('call_transfers')
-                .insert([transferData])
+                .insert([transferRecord])
                 .select()
                 .single();
 
