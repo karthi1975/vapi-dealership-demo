@@ -431,6 +431,58 @@ class SupabaseService {
         }
     }
 
+    // Log test drive booking
+    async logTestDrive(testDriveData) {
+        if (!this.initialized) {
+            console.log('⚠️ Supabase not initialized, skipping test drive log');
+            return null;
+        }
+
+        try {
+            // First, find or create customer
+            let customerId = null;
+            if (testDriveData.customerPhone) {
+                const customer = await this.getCustomerByPhone(testDriveData.customerPhone);
+                if (customer) {
+                    customerId = customer.id;
+                } else {
+                    // Create new customer
+                    const newCustomer = await this.createCustomer({
+                        name: testDriveData.customerName,
+                        phone_number: testDriveData.customerPhone
+                    });
+                    if (newCustomer) {
+                        customerId = newCustomer.id;
+                    }
+                }
+            }
+
+            const { data, error } = await this.client
+                .from('test_drive_bookings')
+                .insert([{
+                    customer_id: customerId,
+                    vehicle_id: testDriveData.vehicleId,
+                    scheduled_date: testDriveData.date,
+                    scheduled_time: testDriveData.time || 'TBD',
+                    status: testDriveData.status || 'scheduled',
+                    notes: `Vehicle: ${testDriveData.vehicleInfo}, Confirmation: ${testDriveData.id}`
+                }])
+                .select()
+                .single();
+
+            if (error) {
+                console.error('❌ Error logging test drive:', error);
+                return null;
+            }
+
+            console.log('✅ Test drive logged:', data.id);
+            return data;
+        } catch (error) {
+            console.error('❌ Error logging test drive:', error);
+            return null;
+        }
+    }
+
     // Get agent performance
     async getAgentPerformance(agentName, dateRange) {
         if (!this.initialized) {
