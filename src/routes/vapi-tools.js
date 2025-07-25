@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const supabase = require('../services/supabase');
+const googleSheets = require('../services/googleSheets');
 const { handleTransferToAgent, handleGetCallContext } = require('./vapi-tools-transfer');
 const { 
     handleCheckInventory, 
@@ -191,6 +192,23 @@ async function handleLeadQualification(args, res) {
             budget: customerInfo?.budget || 0
         };
         
+        // Write lead data to Google Sheets
+        try {
+            const leadData = {
+                customerInfo: customerInfo,
+                intent: customerInfo?.intent || 'browse',
+                summary: `${customerInfo.name} - ${customerInfo.preferredMake || ''} ${customerInfo.preferredModel || ''} - Budget: $${customerInfo.budget || 'N/A'} - Timeline: ${customerInfo.timeline || 'N/A'}`,
+                transferredTo: 'sales',
+                callId: callId
+            };
+            
+            await googleSheets.appendLeadData(leadData);
+            console.log('📊 Lead data written to Google Sheets');
+        } catch (error) {
+            console.error('❌ Failed to write to Google Sheets:', error.message);
+            // Continue processing even if Google Sheets fails
+        }
+        
         // Prepare response based on collected information
         let responseMessage = `Thank you ${customerInfo.name || ''}! `;
         
@@ -273,6 +291,23 @@ router.get('/test-connection', async (req, res) => {
         initialized: supabase.initialized,
         hasClient: !!supabase.client
     });
+});
+
+// Initialize Google Sheets headers
+router.get('/init-sheets', async (req, res) => {
+    try {
+        await googleSheets.createHeaderRow();
+        res.json({ 
+            success: true,
+            message: 'Google Sheets headers initialized',
+            spreadsheetId: process.env.SPREADSHEET_ID
+        });
+    } catch (error) {
+        res.status(500).json({ 
+            success: false,
+            error: error.message 
+        });
+    }
 });
 
 // Test direct insert
