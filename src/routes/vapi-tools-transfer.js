@@ -82,17 +82,17 @@ async function handleTransferToAgent(args, res) {
         if (targetAgent === 'sales') {
             console.log('📞 Transferring to dealership phone for sales:', process.env.DEALERSHIP_PHONE);
             
-            // VAPI expects the transfer directive in the result object for tool responses
+            // VAPI phone transfer format from documentation
             return res.json({
                 results: [{
                     toolCallId: args.toolCallId || 'default',
                     result: {
+                        action: "transferCall",
                         destination: {
                             type: "number",
-                            number: process.env.DEALERSHIP_PHONE || '+18016809129'
-                        },
-                        action: "transfer",
-                        message: "I'll transfer you to our sales specialist who can help you find the perfect vehicle. Please hold for just a moment."
+                            number: process.env.DEALERSHIP_PHONE || '+18016809129',
+                            message: `Customer transferred from Lead Qualifier - ${context?.summary || 'Qualified lead ready for sales'}`
+                        }
                     }
                 }]
             });
