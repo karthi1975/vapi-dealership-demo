@@ -90,15 +90,15 @@ async function handleTransferToAgent(args, res) {
         const transferResponse = {
             results: [{
                 toolCallId: args.toolCallId || 'default',
-                result: transferMessages[targetAgent] || `Transferring you to our ${targetAgent} department.`
-            }],
-            // VAPI transfer must be at root level with proper structure
-            transfer: {
-                type: "assistant",
-                assistantId: ASSISTANT_IDS[targetAgent],
-                // Optional: pass context as message
-                message: `Customer transferred from ${context?.currentAgent || 'leadQualifier'} - ${context?.summary || 'No summary'}`
-            }
+                result: transferMessages[targetAgent] || `Transferring you to our ${targetAgent} department.`,
+                // Include transfer in the result object for VAPI v2
+                transfer: {
+                    type: "assistant",
+                    assistantId: ASSISTANT_IDS[targetAgent],
+                    // Optional: pass context as message
+                    message: `Customer transferred from ${context?.currentAgent || 'leadQualifier'} - ${context?.summary || 'No summary'}`
+                }
+            }]
         };
         
         console.log('📤 Transfer Response:', JSON.stringify(transferResponse, null, 2));
