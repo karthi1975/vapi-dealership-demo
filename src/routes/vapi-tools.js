@@ -87,7 +87,13 @@ async function handleToolCalls(req, res) {
         const functionName = toolCall.function.name;
         const args = toolCall.function.arguments;
         
+        // Add toolCallId from VAPI if provided
+        if (toolCall.id) {
+            args.toolCallId = toolCall.id;
+        }
+        
         console.log(`🛠️ Tool called: ${functionName}`);
+        console.log('📋 Tool call ID:', toolCall.id || 'not provided');
         console.log('📋 Arguments:', args);
         
         // Route to the appropriate function
@@ -241,27 +247,22 @@ async function handleTestDriveScheduling(args, res) {
     }
 }
 
-// Handler for transferAgent
+// Handler for transferAgent - redirect to the proper transferToAgent handler
 async function handleTransferAgent(args, res) {
-    const { currentAgent, conversationContext, callId, reason } = args;
-    console.log('🔄 Transfer agent processing:', { currentAgent, reason, callId });
+    console.log('🔄 TransferAgent called - redirecting to transferToAgent');
     
-    try {
-        return res.json({
-            results: [{
-                toolCallId: args.toolCallId || 'default',
-                result: "I'll connect you with the right person to help you."
-            }]
-        });
-    } catch (error) {
-        console.error('❌ Transfer agent error:', error);
-        return res.json({
-            results: [{
-                toolCallId: args.toolCallId || 'default',
-                result: "Let me transfer you to someone who can better assist."
-            }]
-        });
-    }
+    // Map the old parameter names to the new ones
+    const mappedArgs = {
+        targetAgent: args.targetAgent || args.toAgent || 'sales',
+        context: args.conversationContext || args.context || {},
+        callId: args.callId,
+        toolCallId: args.toolCallId
+    };
+    
+    console.log('📋 Mapped arguments:', mappedArgs);
+    
+    // Use the proper transfer handler
+    return handleTransferToAgent(mappedArgs, res);
 }
 
 // Test Supabase connection

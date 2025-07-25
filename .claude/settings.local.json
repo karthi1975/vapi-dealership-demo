@@ -5,7 +5,9 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
-      "Bash(railway status:*)"
+      "Bash(railway status:*)",
+      "Bash(railway link:*)",
+      "Bash(curl:*)"
     ],
     "deny": []
   }

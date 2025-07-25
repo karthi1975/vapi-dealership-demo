@@ -14,18 +14,23 @@ const ASSISTANT_IDS = {
 
 // Handler for transferToAgent tool
 async function handleTransferToAgent(args, res) {
+    console.log('🔄 Full Transfer Arguments:', JSON.stringify(args, null, 2));
+    
     const { targetAgent, context, callId } = args;
     
     console.log('🔄 Agent Transfer Request:', {
         from: 'current',
         to: targetAgent,
-        callId: callId
+        callId: callId,
+        hasContext: !!context,
+        contextKeys: context ? Object.keys(context) : []
     });
     
     try {
         // Validate target agent
         if (!ASSISTANT_IDS[targetAgent]) {
-            return res.json({
+            console.log('⚠️ Unknown target agent:', targetAgent, 'Defaulting to sales');
+            const fallbackResponse = {
                 results: [{
                     toolCallId: args.toolCallId || 'default',
                     result: "I'm sorry, I couldn't find that department. Let me connect you with our main sales team."
@@ -33,7 +38,9 @@ async function handleTransferToAgent(args, res) {
                 transfer: {
                     assistantId: ASSISTANT_IDS.sales
                 }
-            });
+            };
+            console.log('📤 Fallback Transfer Response:', JSON.stringify(fallbackResponse, null, 2));
+            return res.json(fallbackResponse);
         }
         
         // Store context in database for the next agent
@@ -79,25 +86,22 @@ async function handleTransferToAgent(args, res) {
             parts: "Let me connect you with our parts department for availability and pricing."
         };
         
-        // Return transfer directive for VAPI
-        return res.json({
+        // Log the full response for debugging
+        const transferResponse = {
             results: [{
                 toolCallId: args.toolCallId || 'default',
                 result: transferMessages[targetAgent] || `Transferring you to our ${targetAgent} department.`
             }],
-            // VAPI transfer configuration
+            // VAPI transfer configuration - simplified structure
             transfer: {
-                assistantId: ASSISTANT_IDS[targetAgent],
-                // Pass context to next assistant
-                metadata: {
-                    sessionId: callId,
-                    previousAgent: context?.currentAgent || 'leadQualifier',
-                    customerInfo: context?.customerInfo,
-                    conversationSummary: context?.summary,
-                    intent: context?.intent
-                }
+                assistantId: ASSISTANT_IDS[targetAgent]
             }
-        });
+        };
+        
+        console.log('📤 Transfer Response:', JSON.stringify(transferResponse, null, 2));
+        
+        // Return transfer directive for VAPI
+        return res.json(transferResponse);
         
     } catch (error) {
         console.error('❌ Transfer error:', error);
