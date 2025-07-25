@@ -216,29 +216,7 @@ async function handleLeadQualification(args, res) {
     }
 }
 
-// Handler for checkInventory
-async function handleCheckInventory(args, res) {
-    const { make, model, year, maxPrice, callId } = args;
-    console.log('🔍 Check inventory processing:', { make, model, year, maxPrice, callId });
-    
-    try {
-        // For now, return a simple response
-        return res.json({
-            results: [{
-                toolCallId: args.toolCallId || 'default',
-                result: "Let me check our inventory for you. We have several vehicles that might interest you."
-            }]
-        });
-    } catch (error) {
-        console.error('❌ Check inventory error:', error);
-        return res.json({
-            results: [{
-                toolCallId: args.toolCallId || 'default',
-                result: "Let me check what vehicles we have available for you."
-            }]
-        });
-    }
-}
+// checkInventory handler is imported from vapi-tools-sales.js
 
 // Handler for testDriveScheduling
 async function handleTestDriveScheduling(args, res) {
