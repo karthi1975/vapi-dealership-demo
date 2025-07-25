@@ -12,7 +12,8 @@
       "WebFetch(domain:dashboard.vapi.ai)",
       "Bash(find:*)",
       "Bash(grep:*)",
-      "WebFetch(domain:docs.vapi.ai)"
+      "WebFetch(domain:docs.vapi.ai)",
+      "WebFetch(domain:vapi.ai)"
     ],
     "deny": []
   }

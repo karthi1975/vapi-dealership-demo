@@ -84,18 +84,19 @@ async function handleTransferToAgent(args, res) {
             console.log('📞 Transferring to dealership phone for sales:', phoneNumber);
             console.log('🔧 Tool Call ID:', args.toolCallId);
             
-            // VAPI phone transfer - try with type at root
+            // Based on VAPI docs - use transferCall type with destinations
             const transferResponse = {
                 results: [{
                     toolCallId: args.toolCallId || 'default',
-                    result: "Transferring you to our sales team now."
-                }],
-                // Transfer directive at root level
-                type: "transferCall",
-                destination: {
-                    type: "number",
-                    number: phoneNumber
-                }
+                    result: {
+                        type: "transferCall",
+                        destinations: [{
+                            type: "number",
+                            number: phoneNumber,
+                            message: `Transferring customer: ${context?.summary || 'Qualified lead for sales'}`
+                        }]
+                    }
+                }]
             };
             
             console.log('📤 Phone Transfer Response:', JSON.stringify(transferResponse, null, 2));
