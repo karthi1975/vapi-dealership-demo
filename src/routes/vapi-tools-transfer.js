@@ -100,6 +100,8 @@ async function handleTransferToAgent(args, res) {
         
         console.log('📤 Transfer Response:', JSON.stringify(transferResponse, null, 2));
         console.log('🎯 Target Assistant ID:', ASSISTANT_IDS[targetAgent]);
+        console.log('🔍 Target Agent Name:', targetAgent);
+        console.log('✅ Expected: Mike (Sales) with ID:', ASSISTANT_IDS.sales);
         
         // Return transfer directive for VAPI
         return res.json(transferResponse);
