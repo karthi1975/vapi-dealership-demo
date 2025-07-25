@@ -20,6 +20,7 @@
     "dotenv": "^16.3.1",
     "@supabase/supabase-js": "^2.38.4",
     "google-spreadsheet": "^4.1.2",
+    "googleapis": "^126.0.0",
     "groq-sdk": "^0.3.1",
     "uuid": "^9.0.1",
     "helmet": "^7.0.0",
