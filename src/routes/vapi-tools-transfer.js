@@ -90,14 +90,12 @@ async function handleTransferToAgent(args, res) {
         const transferResponse = {
             results: [{
                 toolCallId: args.toolCallId || 'default',
-                result: transferMessages[targetAgent] || `Transferring you to our ${targetAgent} department.`
-            }],
-            // Transfer must be at root level
-            transfer: {
-                type: "assistant", 
-                assistantId: ASSISTANT_IDS[targetAgent],
-                message: `Customer transferred from ${context?.currentAgent || 'leadQualifier'} - ${context?.summary || 'No summary'}`
-            }
+                result: {
+                    assistantId: ASSISTANT_IDS[targetAgent],
+                    action: "transfer",
+                    message: `Customer transferred from ${context?.currentAgent || 'leadQualifier'} - ${context?.summary || 'No summary'}`
+                }
+            }]
         };
         
         console.log('📤 Transfer Response:', JSON.stringify(transferResponse, null, 2));
