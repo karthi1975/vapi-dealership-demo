@@ -84,16 +84,15 @@ async function handleTransferToAgent(args, res) {
             console.log('📞 Transferring to dealership phone for sales:', phoneNumber);
             console.log('🔧 Tool Call ID:', args.toolCallId);
             
+            // Try simplified format that some VAPI versions prefer
             const transferResponse = {
                 results: [{
                     toolCallId: args.toolCallId || 'default',
-                    result: {
-                        action: "transferCall",
-                        destination: {
-                            type: "number",
-                            number: phoneNumber,
-                            message: `Customer transferred from Lead Qualifier - ${context?.summary || 'Qualified lead ready for sales'}`
-                        }
+                    result: "I'll transfer you to our sales team now. Please hold while I connect you.",
+                    // Add transfer at root level as well
+                    transfer: {
+                        type: "number",
+                        number: phoneNumber
                     }
                 }]
             };
