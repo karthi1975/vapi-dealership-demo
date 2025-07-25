@@ -80,22 +80,28 @@ async function handleTransferToAgent(args, res) {
         
         // TEMPORARY: Transfer to phone for sales until Squad is set up
         if (targetAgent === 'sales') {
-            console.log('📞 Transferring to dealership phone for sales:', process.env.DEALERSHIP_PHONE);
+            const phoneNumber = process.env.DEALERSHIP_PHONE || '+18016809129';
+            console.log('📞 Transferring to dealership phone for sales:', phoneNumber);
+            console.log('🔧 Tool Call ID:', args.toolCallId);
             
-            // VAPI phone transfer format from documentation
-            return res.json({
+            const transferResponse = {
                 results: [{
                     toolCallId: args.toolCallId || 'default',
                     result: {
                         action: "transferCall",
                         destination: {
                             type: "number",
-                            number: process.env.DEALERSHIP_PHONE || '+18016809129',
+                            number: phoneNumber,
                             message: `Customer transferred from Lead Qualifier - ${context?.summary || 'Qualified lead ready for sales'}`
                         }
                     }
                 }]
-            });
+            };
+            
+            console.log('📤 Phone Transfer Response:', JSON.stringify(transferResponse, null, 2));
+            
+            // VAPI phone transfer format from documentation
+            return res.json(transferResponse);
         }
         
         // Get appropriate transfer message

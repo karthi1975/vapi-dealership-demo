@@ -10,7 +10,8 @@
       "Bash(curl:*)",
       "Bash(railway up:*)",
       "WebFetch(domain:dashboard.vapi.ai)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(grep:*)"
     ],
     "deny": []
   }
