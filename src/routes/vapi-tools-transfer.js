@@ -86,19 +86,23 @@ async function handleTransferToAgent(args, res) {
             parts: "Let me connect you with our parts department for availability and pricing."
         };
         
-        // Log the full response for debugging
+        // VAPI expects a specific response format for transfers
         const transferResponse = {
             results: [{
                 toolCallId: args.toolCallId || 'default',
                 result: transferMessages[targetAgent] || `Transferring you to our ${targetAgent} department.`
             }],
-            // VAPI transfer configuration - simplified structure
+            // VAPI transfer must be at root level with proper structure
             transfer: {
-                assistantId: ASSISTANT_IDS[targetAgent]
+                type: "assistant",
+                assistantId: ASSISTANT_IDS[targetAgent],
+                // Optional: pass context as message
+                message: `Customer transferred from ${context?.currentAgent || 'leadQualifier'} - ${context?.summary || 'No summary'}`
             }
         };
         
         console.log('📤 Transfer Response:', JSON.stringify(transferResponse, null, 2));
+        console.log('🎯 Target Assistant ID:', ASSISTANT_IDS[targetAgent]);
         
         // Return transfer directive for VAPI
         return res.json(transferResponse);
