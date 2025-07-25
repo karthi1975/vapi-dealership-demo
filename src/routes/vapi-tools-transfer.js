@@ -87,13 +87,14 @@ async function handleTransferToAgent(args, res) {
         };
         
         // VAPI expects a specific response format for transfers
+        // According to VAPI docs, the result should contain assistantId and action
         const transferResponse = {
             results: [{
                 toolCallId: args.toolCallId || 'default',
                 result: {
                     assistantId: ASSISTANT_IDS[targetAgent],
-                    action: "transfer",
-                    message: `Customer transferred from ${context?.currentAgent || 'leadQualifier'} - ${context?.summary || 'No summary'}`
+                    action: "transfer"
+                    // Remove message from here - it's not part of the VAPI spec
                 }
             }]
         };

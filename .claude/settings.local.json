@@ -9,7 +9,8 @@
       "Bash(railway link:*)",
       "Bash(curl:*)",
       "Bash(railway up:*)",
-      "WebFetch(domain:dashboard.vapi.ai)"
+      "WebFetch(domain:dashboard.vapi.ai)",
+      "Bash(find:*)"
     ],
     "deny": []
   }
