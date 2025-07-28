@@ -37,6 +37,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 const vapiRoutes = require('./routes/vapi');
 const dashboardRoutes = require('./routes/dashboard');
 const inventoryRoutes = require('./routes/inventory');
+const inventoryDisplayRoutes = require('./routes/inventoryDisplay');
 const squadsRoutes = require('./routes/squads');
 const vapiToolsRoutes = require('./routes/vapi-tools');
 const { router: vapiToolsEnhancedRoutes } = require('./routes/vapi-tools-enhanced');
@@ -45,6 +46,7 @@ const { router: vapiToolsEnhancedRoutes } = require('./routes/vapi-tools-enhance
 app.use('/vapi', vapiRoutes);
 app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/inventory', inventoryRoutes);
+app.use('/inventory', inventoryDisplayRoutes); // Public inventory display pages
 app.use('/squads', squadsRoutes);
 app.use('/vapi-tools', vapiToolsRoutes);
 app.use('/vapi-tools-enhanced', vapiToolsEnhancedRoutes);
