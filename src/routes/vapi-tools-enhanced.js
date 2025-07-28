@@ -20,6 +20,16 @@ async function handleEnhancedLeadQualification(args, res) {
         });
     }
     
+    // Validate email is present
+    if (!customerInfo.email) {
+        return res.json({
+            results: [{
+                toolCallId: args.toolCallId || 'default',
+                result: "I'll need your email address to send you the vehicle details and pricing information. What's the best email to reach you at?"
+            }]
+        });
+    }
+    
     try {
         // Create enhanced customer with all vehicle preferences
         const enhancedCustomerData = {
@@ -262,27 +272,33 @@ async function schedulePostCallCommunications(callId, customer, salesperson, inv
         });
     }
     
-    // 2. Client summary email (15-30 min delay)
-    const emailDelay = new Date(now.getTime() + 20 * 60 * 1000); // 20 minutes
-    await supabaseEnhanced.scheduleCommunication({
-        callId: callId,
-        customerId: customer.id,
-        type: 'email',
-        subject: `Your Vehicle Search Results - ${customer.preferred_make || 'Multiple'} Options Available`,
-        content: generateClientEmailContent(customer, salesperson, inventoryLink, matchedVehicles),
-        scheduledAt: emailDelay.toISOString(),
-        metadata: { 
-            template: 'client_summary',
-            salesperson: salesperson,
-            matchedVehicles: matchedVehicles?.map(v => ({
-                stock: v.stock_number,
-                year: v.year,
-                make: v.make,
-                model: v.model,
-                price: v.price
-            }))
-        }
-    });
+    // 2. Client summary email (15-30 min delay) - Only if email exists
+    if (customer?.email) {
+        const emailDelay = new Date(now.getTime() + 20 * 60 * 1000); // 20 minutes
+        await supabaseEnhanced.scheduleCommunication({
+            callId: callId,
+            customerId: customer.id,
+            type: 'email',
+            subject: `Your Vehicle Search Results - ${customer.preferred_make || 'Multiple'} Options Available`,
+            content: generateClientEmailContent(customer, salesperson, inventoryLink, matchedVehicles),
+            scheduledAt: emailDelay.toISOString(),
+            metadata: { 
+                template: 'client_summary',
+                salesperson: salesperson,
+                matchedVehicles: matchedVehicles?.map(v => ({
+                    stock: v.stock_number,
+                    year: v.year,
+                    make: v.make,
+                    model: v.model,
+                    price: v.price
+                }))
+            }
+        });
+        
+        console.log(`📧 Email scheduled for ${customer.email} at ${emailDelay.toISOString()}`);
+    } else {
+        console.log('⚠️ No email provided - skipping email scheduling');
+    }
     
     // 3. Schedule education campaign emails
     const campaigns = await supabaseEnhanced.getEducationCampaigns('buyer_tips');
