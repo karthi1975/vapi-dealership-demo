@@ -4,6 +4,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
 require('dotenv').config();
+const communicationScheduler = require('./services/communicationScheduler');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -38,6 +39,7 @@ const dashboardRoutes = require('./routes/dashboard');
 const inventoryRoutes = require('./routes/inventory');
 const squadsRoutes = require('./routes/squads');
 const vapiToolsRoutes = require('./routes/vapi-tools');
+const { router: vapiToolsEnhancedRoutes } = require('./routes/vapi-tools-enhanced');
 
 // Routes
 app.use('/vapi', vapiRoutes);
@@ -45,6 +47,7 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/inventory', inventoryRoutes);
 app.use('/squads', squadsRoutes);
 app.use('/vapi-tools', vapiToolsRoutes);
+app.use('/vapi-tools-enhanced', vapiToolsEnhancedRoutes);
 
 // Root POST handler for VAPI - redirect to vapi-tools
 app.post('/', (req, res) => {
@@ -128,7 +131,19 @@ app.listen(PORT, () => {
     console.log(`📡 Server running on port ${PORT}`);
     console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
     console.log(`📊 Health check: http://localhost:${PORT}/health`);
+    
+    // Start communication scheduler
+    communicationScheduler.start();
+    console.log('📧 Communication scheduler started');
+    
     console.log('✅ Server ready to receive requests');
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+    console.log('🛑 SIGTERM received, shutting down gracefully...');
+    communicationScheduler.stop();
+    process.exit(0);
 });
 
 module.exports = app;

@@ -1,0 +1,101 @@
+S.No,Stock ID,Make,Model,Year,Trim,VIN,Mileage (mi),Fuel Type,Transmission,Engine,Drivetrain,Color,Interior,Body Type,Condition,Previous Owners,Service History,Accident History,Title Status,Price ($),Extra Features (in Comment),Notes
+1,C001,Toyota,Camry,2016,XLE,DZHRJ4M4A3AH6T5K9,37235,Electric,CVT,4.7L I4,4WD,Silver,Brown,Sedan,Good,1,None,Major,Salvage,53150,"Apple CarPlay, Leather Seats, Sunroof, Backup Camera, Android Auto",Certified Pre-Owned
+2,C002,Volkswagen,Atlas,2020,Sport,PHH163E1XDM8X9RXG,10697,Electric,Automatic,2.4L I4,AWD,Gray,Beige,Coupe,Good,2,Partial,None,Salvage,32446,"Backup Camera, Bluetooth, Remote Start",Dealer Maintained
+3,C003,Mercedes-Benz,E-Class,2023,Base,E923FPC6DTR8WLK99,80018,Hybrid,CVT,3.0L V6,4WD,Gray,Brown,Truck,Excellent,2,Full,Major,Rebuilt,23487,"Apple CarPlay, Backup Camera, Android Auto",Dealer Maintained
+4,C004,Honda,CR-V,2017,Sport,3GTH5KGJ3AW9LEPS2,49684,Hybrid,Manual,2.8L V6,RWD,Black,Beige,Sedan,Good,1,Partial,None,Lien,9707,"Bluetooth, Backup Camera",
+5,C005,Mercedes-Benz,GLC,2017,XLE,CMGE9MPG3JCLK2TFJ,10578,Gasoline,Manual,4.4L V6,4WD,Silver,Black,Coupe,Fair,4,None,Major,Rebuilt,44577,"Lane Assist, Leather Seats",
+6,C006,Mercedes-Benz,GLE,2016,Touring,Y8FX60X8H4N5N0M3Z,21607,Electric,CVT,3.4L V6,RWD,Green,Black,Coupe,Needs Work,2,None,None,Salvage,47583,"Lane Assist, Sunroof, Apple CarPlay, Remote Start, Android Auto",Dealer Maintained
+7,C007,Mercedes-Benz,GLE,2023,SE,1PP2C2L4339NR5HJA,73000,Gasoline,CVT,2.0L I4,RWD,Gray,Brown,SUV,Good,2,None,None,Lien,37231,"Sunroof, Navigation, Bluetooth, Leather Seats, Backup Camera",Dealer Maintained
+8,C008,Volkswagen,Passat,2018,Base,7U6325FVLBZHXHE1H,52373,Gasoline,Manual,3.5L I4,FWD,White,Gray,Hatchback,Good,1,None,None,Salvage,20870,"Navigation, Remote Start, Blind Spot Monitor, Android Auto, Sunroof",Certified Pre-Owned
+9,C009,Hyundai,Elantra,2015,LE,DJ33Y6V9TMBH8Y7WY,56897,Hybrid,Manual,3.5L V6,RWD,Green,Brown,Sedan,Good,2,Partial,Minor,Rebuilt,9757,"Remote Start, Backup Camera, Navigation, Android Auto, Sunroof",
+10,C010,Ford,Explorer,2015,Base,K6MM5L3KCFWJZVS21,66803,Electric,CVT,4.1L V6,AWD,Silver,Black,Truck,Fair,3,Partial,None,Lien,24837,"Apple CarPlay, Lane Assist, Navigation, Heated Seats",Dealer Maintained
+11,C011,Toyota,RAV4,2016,Sport,ES2T327MTTBKBMR8B,70176,Gasoline,Manual,4.3L V6,RWD,Green,Beige,Coupe,Fair,4,None,Minor,Clean,26369,"Bluetooth, Sunroof, Navigation, Android Auto, Apple CarPlay",Recent Service
+12,C012,Volkswagen,Atlas,2022,Touring,B93E3WYSG88U12B3B,114261,Electric,Manual,3.8L I4,RWD,Green,Beige,Hatchback,Needs Work,2,Full,Minor,Lien,51349,"Navigation, Remote Start, Android Auto, Heated Seats, Backup Camera",Recent Service
+13,C013,Toyota,RAV4,2016,Touring,8MC5L6J1EHW33JV2D,118269,Electric,Automatic,4.8L I4,4WD,White,Brown,Hatchback,Good,3,Partial,Minor,Salvage,42724,"Android Auto, Sunroof",New Tires
+14,C014,Honda,Civic,2014,Base,F70LHHH88W40H3KCH,114970,Hybrid,CVT,3.3L V6,AWD,Red,Black,SUV,Good,1,None,None,Lien,32377,"Apple CarPlay, Navigation, Lane Assist, Sunroof",
+15,C015,Toyota,Highlander,2016,LE,KLK92BYA6X4YLNH6S,60686,Gasoline,Automatic,3.1L I4,FWD,Red,Gray,Hatchback,Needs Work,1,Partial,Major,Salvage,20766,"Heated Seats, Lane Assist, Sunroof, Apple CarPlay",New Tires
+16,C016,Ford,Escape,2014,Base,X1WFTTNRE3V9FF4FK,58714,Hybrid,Manual,4.5L I4,FWD,White,Beige,Sedan,Good,3,Full,Minor,Clean,49178,"Navigation, Android Auto, Leather Seats, Heated Seats, Sunroof",Certified Pre-Owned
+17,C017,Kia,Optima,2023,Base,LJT5F06KH4YHJB2XH,85067,Gasoline,CVT,1.6L V6,4WD,Gray,Black,Sedan,Excellent,4,Partial,Minor,Salvage,11593,"Apple CarPlay, Bluetooth, Backup Camera, Navigation",Dealer Maintained
+18,C018,Hyundai,Tucson,2020,Base,Y034T2D7RAWD21U4N,105196,Gasoline,Manual,2.5L I4,AWD,Black,Black,SUV,Fair,1,None,None,Rebuilt,50594,"Blind Spot Monitor, Lane Assist, Navigation, Sunroof, Android Auto",
+19,C019,Kia,Sportage,2019,SE,PLJTNPXCRDXU5L0U0,11895,Electric,Manual,3.2L V6,RWD,Black,Beige,Coupe,Needs Work,2,Partial,None,Lien,33684,"Bluetooth, Lane Assist",Dealer Maintained
+20,C020,Honda,Accord,2019,SE,3ET9TNF4ATEAUDP4L,42710,Electric,Automatic,4.3L V6,4WD,Gray,Black,Coupe,Excellent,1,None,Major,Salvage,28378,"Sunroof, Bluetooth",Recent Service
+21,C021,Kia,Sportage,2016,Sport,K75YWE2FHCRAFYZNM,107776,Hybrid,CVT,4.0L I4,RWD,Silver,Beige,Coupe,Good,1,None,Minor,Clean,14312,"Android Auto, Backup Camera, Leather Seats",Dealer Maintained
+22,C022,Ford,Explorer,2016,Touring,7LYYJCL0U4848CF33,29437,Gasoline,Manual,2.4L I4,4WD,Silver,Beige,Sedan,Fair,4,Full,Minor,Salvage,23775,"Leather Seats, Blind Spot Monitor",
+23,C023,Toyota,Camry,2017,Touring,ELUMG5A28DB4DZYBE,11159,Gasoline,Automatic,1.6L I4,FWD,Black,Gray,Sedan,Excellent,3,Full,None,Salvage,27332,"Android Auto, Heated Seats, Bluetooth, Leather Seats, Sunroof",Certified Pre-Owned
+24,C024,Mercedes-Benz,E-Class,2015,XLE,9HJXCSUEXRY3NGX89,12244,Diesel,CVT,5.0L V6,RWD,Red,Brown,Truck,Good,3,Full,Major,Lien,25055,"Android Auto, Heated Seats",Recent Service
+25,C025,Nissan,Sentra,2014,LE,0F2DRXZ5WVGL6C0JZ,51864,Gasoline,Manual,4.3L V6,4WD,Silver,Beige,SUV,Excellent,3,None,Major,Salvage,31394,"Leather Seats, Navigation",Certified Pre-Owned
+26,C026,Hyundai,Sonata,2022,Base,EYVNLTZGZ634BXSEM,23640,Hybrid,Manual,3.4L I4,4WD,Silver,Beige,SUV,Needs Work,2,Partial,Major,Rebuilt,33717,"Remote Start, Backup Camera, Leather Seats",New Tires
+27,C027,BMW,X5,2020,LE,TSYR6J3CAGZXAT7T8,68353,Diesel,Manual,3.2L V6,AWD,White,Beige,Sedan,Fair,2,None,Major,Salvage,33789,"Heated Seats, Lane Assist, Navigation",Certified Pre-Owned
+28,C028,Volkswagen,Jetta,2014,Sport,M43VKUA9HB1MT1DU2,65798,Gasoline,CVT,1.7L V6,AWD,Black,Gray,Truck,Excellent,4,Full,Minor,Lien,40150,"Blind Spot Monitor, Navigation",New Tires
+29,C029,Toyota,Corolla,2022,Base,8SYV52UAKR39C7JAA,83013,Diesel,Automatic,3.5L I4,AWD,Blue,Brown,Truck,Fair,3,Full,None,Rebuilt,46959,"Android Auto, Heated Seats, Apple CarPlay, Bluetooth, Leather Seats",Recent Service
+30,C030,Nissan,Altima,2019,XLE,1ZH8K643LKVLHV26K,117045,Gasoline,Manual,3.3L V6,4WD,Green,Black,Hatchback,Fair,1,None,Major,Clean,16670,"Backup Camera, Blind Spot Monitor, Remote Start, Sunroof, Bluetooth",New Tires
+31,C031,Nissan,Rogue,2015,XLE,BDPS5UT1AM0R89YZT,118826,Gasoline,Manual,4.4L I4,FWD,Blue,Black,Coupe,Fair,1,Full,Minor,Lien,46424,"Bluetooth, Blind Spot Monitor, Sunroof, Backup Camera",Certified Pre-Owned
+32,C032,Mercedes-Benz,GLE,2023,Base,EP63TSVZ310MRNGB2,100789,Gasoline,CVT,2.2L V6,4WD,Blue,Gray,Sedan,Excellent,2,Partial,Major,Rebuilt,16006,"Lane Assist, Android Auto",Dealer Maintained
+33,C033,Hyundai,Tucson,2018,Sport,BT66U3LN48BXMM0EC,54443,Hybrid,Automatic,3.4L I4,4WD,Red,Black,Sedan,Fair,3,None,None,Salvage,35452,"Leather Seats, Android Auto, Blind Spot Monitor",New Tires
+34,C034,Volkswagen,Tiguan,2023,LE,3R4SH9VSUWA7V7S9Y,72271,Electric,Manual,4.0L I4,FWD,Green,Beige,SUV,Needs Work,4,None,Major,Salvage,21772,"Bluetooth, Navigation, Android Auto, Blind Spot Monitor",Recent Service
+35,C035,Hyundai,Tucson,2023,Base,BW0ZBZJNHSHUF0URJ,94222,Gasoline,CVT,3.7L V6,FWD,Green,Black,Hatchback,Fair,3,Partial,None,Salvage,38526,"Apple CarPlay, Heated Seats, Lane Assist, Backup Camera, Bluetooth",Dealer Maintained
+36,C036,Honda,Civic,2021,Base,BDM0XWCPGTMTRJR4Z,14634,Gasoline,Manual,4.0L I4,RWD,Green,Gray,Sedan,Good,1,Full,None,Rebuilt,45744,"Remote Start, Leather Seats, Heated Seats, Android Auto, Bluetooth",New Tires
+37,C037,Honda,Pilot,2018,SE,9M1UALESND52R6JAK,89204,Electric,CVT,4.0L V6,4WD,Silver,Black,Coupe,Excellent,1,Full,Major,Rebuilt,40821,"Android Auto, Lane Assist, Backup Camera, Leather Seats, Bluetooth",
+38,C038,Ford,F-150,2021,Sport,5BG6JW8FR3H3BYDPS,76253,Hybrid,Automatic,2.3L V6,RWD,Black,Gray,Hatchback,Needs Work,1,Partial,None,Clean,22854,"Bluetooth, Apple CarPlay, Heated Seats, Blind Spot Monitor",Certified Pre-Owned
+39,C039,Hyundai,Sonata,2014,XLE,PTZGP0U61MDMGG9LM,31361,Gasoline,CVT,1.5L V6,AWD,Black,Beige,Sedan,Good,2,Partial,Major,Rebuilt,18565,"Blind Spot Monitor, Backup Camera",Dealer Maintained
+40,C040,Nissan,Sentra,2022,Base,3ZMESKGDU4HSHDED9,36662,Electric,Automatic,1.9L V6,RWD,Gray,Gray,Coupe,Fair,2,Partial,Minor,Rebuilt,42017,"Android Auto, Backup Camera, Leather Seats, Blind Spot Monitor, Navigation",Recent Service
+41,C041,Volkswagen,Tiguan,2014,Touring,VRDZU9XZ9H0U67AXN,35935,Diesel,CVT,1.7L V6,FWD,Silver,Black,SUV,Needs Work,3,None,None,Salvage,47821,"Backup Camera, Navigation, Bluetooth, Sunroof, Apple CarPlay",Dealer Maintained
+42,C042,Kia,Sportage,2020,SE,PVHNDMA8NLNSXJ2ME,78991,Hybrid,Manual,4.5L V6,AWD,Red,Gray,Coupe,Excellent,3,Full,Minor,Rebuilt,45201,"Apple CarPlay, Leather Seats",New Tires
+43,C043,Toyota,Highlander,2018,Touring,2D53R8MK1AFXM8AUY,75400,Gasoline,CVT,4.7L I4,RWD,White,Beige,Sedan,Needs Work,4,Partial,Major,Clean,9733,"Backup Camera, Blind Spot Monitor, Bluetooth, Apple CarPlay",
+44,C044,Honda,Pilot,2022,SE,ANVB0CZCXH39B0HGG,61162,Hybrid,Manual,3.1L I4,4WD,White,Beige,Sedan,Needs Work,4,Full,Minor,Salvage,19825,"Blind Spot Monitor, Apple CarPlay, Lane Assist",New Tires
+45,C045,Kia,Sportage,2018,Touring,16P9SAH8AK0WSXK24,91646,Diesel,Automatic,2.6L I4,RWD,Green,Beige,Coupe,Fair,2,Full,Minor,Clean,52793,"Apple CarPlay, Navigation, Leather Seats",Certified Pre-Owned
+46,C046,Volkswagen,Atlas,2014,Touring,Z99NHUWLG90DUBG03,62081,Diesel,Manual,4.6L V6,4WD,White,Black,Truck,Needs Work,2,Partial,None,Rebuilt,38051,"Sunroof, Remote Start, Navigation, Blind Spot Monitor",
+47,C047,Nissan,Sentra,2023,XLE,DBE2PNBCA0DEX86Y2,73204,Diesel,Automatic,3.5L V6,AWD,Gray,Gray,Truck,Fair,1,Partial,None,Rebuilt,13701,"Sunroof, Leather Seats, Lane Assist",Dealer Maintained
+48,C048,Hyundai,Tucson,2021,XLE,Z6EX6SKF85JNG7AF5,95855,Diesel,CVT,4.6L V6,AWD,Black,Black,Truck,Excellent,3,Partial,Major,Lien,15815,"Bluetooth, Navigation, Android Auto, Leather Seats",Certified Pre-Owned
+49,C049,Chevrolet,Silverado,2016,XLE,06692PMRB7JH2724L,97285,Diesel,Automatic,1.6L I4,RWD,White,Brown,Truck,Excellent,3,Partial,None,Salvage,37156,"Backup Camera, Lane Assist",Dealer Maintained
+50,C050,Hyundai,Elantra,2018,Touring,KT4XA74JC9CG807ZV,117003,Hybrid,Automatic,4.6L V6,RWD,White,Gray,Sedan,Fair,2,Partial,Minor,Salvage,37231,"Sunroof, Backup Camera, Blind Spot Monitor, Leather Seats",Recent Service
+51,C051,Honda,CR-V,2020,SE,0RY477GXLAVEUUM12,86633,Diesel,Manual,3.0L I4,RWD,Blue,Black,Coupe,Good,4,None,Major,Lien,48695,"Lane Assist, Sunroof, Blind Spot Monitor",New Tires
+52,C052,Chevrolet,Malibu,2022,Base,0BEF9RWKDVYUUYJXY,22741,Diesel,Automatic,2.1L V6,AWD,Black,Black,Hatchback,Needs Work,1,None,Minor,Rebuilt,27672,"Blind Spot Monitor, Navigation",Dealer Maintained
+53,C053,Chevrolet,Malibu,2016,SE,Z3Y1J79FZWXTBHJY7,106675,Electric,Automatic,1.7L I4,AWD,Blue,Beige,SUV,Good,2,Partial,Major,Lien,22066,"Lane Assist, Heated Seats, Leather Seats, Remote Start, Bluetooth",
+54,C054,BMW,3 Series,2023,LE,R0ENT64VUTEJ9SF85,14160,Gasoline,CVT,2.8L V6,RWD,Black,Black,Hatchback,Good,2,None,Minor,Salvage,43792,"Heated Seats, Android Auto, Leather Seats",New Tires
+55,C055,BMW,X3,2018,Touring,BA3CE2UPFD2LK3F61,69045,Electric,CVT,4.1L I4,RWD,Green,Brown,Hatchback,Needs Work,4,None,Major,Salvage,9171,"Lane Assist, Sunroof",
+56,C056,Ford,F-150,2023,XLE,SBNKHSX3TH8UVXB3K,108900,Electric,Manual,2.3L V6,RWD,Black,Beige,SUV,Good,2,Partial,Major,Clean,26165,"Navigation, Android Auto",Certified Pre-Owned
+57,C057,Hyundai,Tucson,2018,LE,NZF9ED58DZ6VA8851,25810,Diesel,Manual,3.0L V6,FWD,Black,Brown,Truck,Fair,1,Partial,Major,Clean,49937,"Backup Camera, Heated Seats, Leather Seats",
+58,C058,Mercedes-Benz,GLE,2016,SE,0L875SCYLAB3XCNPT,68118,Diesel,CVT,4.6L V6,AWD,Gray,Gray,Coupe,Fair,3,None,Minor,Lien,30681,"Sunroof, Blind Spot Monitor, Remote Start, Android Auto, Navigation",Dealer Maintained
+59,C059,Nissan,Altima,2016,Base,U571FSD28U74NB647,62136,Hybrid,Manual,1.7L V6,RWD,Blue,Black,Truck,Needs Work,1,None,None,Lien,14174,"Lane Assist, Leather Seats, Android Auto, Backup Camera",
+60,C060,Honda,Civic,2015,SE,6JZWVY18UMZ311WEX,87242,Gasoline,Manual,1.5L V6,RWD,Green,Beige,Hatchback,Fair,4,None,None,Lien,35216,"Android Auto, Lane Assist, Backup Camera, Heated Seats, Blind Spot Monitor",
+61,C061,BMW,X3,2014,LE,1UDHJMJB7DDAFRJ4L,113650,Hybrid,Automatic,3.8L V6,FWD,Green,Beige,Coupe,Needs Work,2,Partial,None,Lien,18768,"Leather Seats, Sunroof",New Tires
+62,C062,Hyundai,Sonata,2017,Touring,6JM9JVSL7RVMPBSCC,96680,Diesel,Automatic,2.0L V6,RWD,Red,Black,Hatchback,Good,3,Partial,Major,Clean,18133,"Lane Assist, Navigation, Blind Spot Monitor",Certified Pre-Owned
+63,C063,Honda,Accord,2018,LE,U730K3FSN1T3UZSCL,77725,Electric,CVT,2.2L V6,FWD,Black,Brown,Truck,Fair,4,None,None,Salvage,52755,"Android Auto, Remote Start",New Tires
+64,C064,BMW,3 Series,2015,Sport,TXAUZTJT6J86YX4FR,111573,Gasoline,Automatic,2.4L I4,RWD,Blue,Beige,Hatchback,Needs Work,4,Partial,Major,Clean,39525,"Sunroof, Backup Camera, Lane Assist, Heated Seats, Blind Spot Monitor",Certified Pre-Owned
+65,C065,Chevrolet,Equinox,2018,SE,7PJPHWH4EA91RSL6Z,118960,Electric,Automatic,4.0L I4,RWD,Black,Black,Coupe,Excellent,2,None,Major,Clean,52361,"Sunroof, Remote Start, Navigation",Recent Service
+66,C066,Volkswagen,Tiguan,2016,Base,TKJ262LEFL23L0WK4,24297,Electric,CVT,2.1L I4,AWD,Black,Brown,Coupe,Needs Work,1,None,Minor,Salvage,53099,"Remote Start, Sunroof, Android Auto, Apple CarPlay, Navigation",New Tires
+67,C067,BMW,X5,2014,SE,Y46N8CM4ZHTYJGJ1Y,104273,Gasoline,CVT,1.9L V6,RWD,White,Black,Hatchback,Excellent,2,Full,None,Rebuilt,54272,"Heated Seats, Bluetooth, Navigation, Sunroof, Leather Seats",Recent Service
+68,C068,Kia,Forte,2017,SE,RJMRARJT0YZ6R833K,100619,Diesel,Manual,4.1L V6,FWD,Silver,Brown,Coupe,Fair,4,None,None,Lien,40707,"Lane Assist, Backup Camera, Apple CarPlay",Certified Pre-Owned
+69,C069,Toyota,Highlander,2018,LE,FJX2ZXGNVYMHR2UN3,13625,Diesel,Manual,4.4L V6,RWD,Green,Gray,SUV,Needs Work,4,Full,Minor,Lien,10096,"Sunroof, Lane Assist",New Tires
+70,C070,BMW,5 Series,2022,XLE,0K6C69W3RJDDYC5WE,18750,Hybrid,Automatic,3.6L I4,4WD,Red,Gray,Hatchback,Excellent,4,Partial,None,Rebuilt,13513,"Blind Spot Monitor, Remote Start, Leather Seats",
+71,C071,BMW,X5,2023,Sport,EC66ND42UA2JT8V0G,88460,Hybrid,Manual,2.5L I4,AWD,Blue,Brown,Sedan,Good,2,None,None,Lien,9322,"Backup Camera, Navigation",
+72,C072,Nissan,Rogue,2014,XLE,9KUE92HL6DJ4BV9EG,85018,Electric,CVT,4.3L I4,RWD,Gray,Brown,SUV,Good,2,None,Minor,Lien,35683,"Lane Assist, Leather Seats, Android Auto, Sunroof",
+73,C073,Ford,F-150,2022,LE,VJTPEJ6NR9BDM914Z,50778,Electric,Manual,4.1L I4,AWD,Red,Beige,Coupe,Excellent,4,Partial,Minor,Lien,9874,"Heated Seats, Apple CarPlay, Backup Camera, Bluetooth, Blind Spot Monitor",
+74,C074,Ford,Explorer,2017,XLE,M0E6J1MU8MS0HG3EG,16952,Gasoline,CVT,4.6L V6,RWD,Silver,Beige,Hatchback,Good,2,None,None,Salvage,34393,"Heated Seats, Bluetooth, Navigation",Dealer Maintained
+75,C075,Kia,Sorento,2022,Base,V5SGN53W0BT500HUJ,97884,Gasoline,Manual,2.1L I4,RWD,Red,Gray,Sedan,Fair,3,None,None,Rebuilt,9577,"Lane Assist, Apple CarPlay, Blind Spot Monitor, Leather Seats, Heated Seats",Dealer Maintained
+76,C076,Mercedes-Benz,GLE,2020,Base,9RZCTWVL3S5NES8W5,24442,Diesel,Automatic,3.7L I4,4WD,Blue,Beige,Hatchback,Fair,4,Partial,Minor,Clean,48027,"Blind Spot Monitor, Bluetooth, Remote Start",Dealer Maintained
+77,C077,Mercedes-Benz,C-Class,2022,SE,C76EXM3T56C5FYL4J,114483,Hybrid,Manual,2.3L I4,RWD,Red,Gray,Hatchback,Needs Work,4,None,Major,Lien,37046,"Sunroof, Blind Spot Monitor, Lane Assist, Apple CarPlay, Navigation",Dealer Maintained
+78,C078,BMW,3 Series,2021,Touring,L8A7X9FWABWHMFMHR,75988,Electric,Automatic,3.6L V6,FWD,Blue,Gray,Coupe,Needs Work,1,Partial,None,Rebuilt,33861,"Remote Start, Navigation",Dealer Maintained
+79,C079,Chevrolet,Silverado,2018,XLE,LERSYH7YL0J0PWVH1,63464,Diesel,Manual,3.8L V6,AWD,Green,Brown,Hatchback,Needs Work,3,Full,None,Rebuilt,47854,"Lane Assist, Sunroof, Heated Seats, Bluetooth",
+80,C080,Volkswagen,Atlas,2019,Base,EBU4Y14CCN8GE6KJ5,117693,Diesel,Manual,3.9L I4,4WD,White,Brown,SUV,Good,4,None,Major,Rebuilt,54612,"Bluetooth, Blind Spot Monitor",
+81,C081,Honda,Civic,2020,Base,U6LC1X93RFNWNW0UK,94009,Gasoline,Manual,5.0L V6,AWD,White,Brown,SUV,Needs Work,4,None,Major,Lien,23287,"Android Auto, Lane Assist, Navigation, Sunroof",
+82,C082,Chevrolet,Silverado,2016,XLE,MNE750YXXHU4U7K3W,33328,Hybrid,Automatic,1.9L V6,4WD,Gray,Beige,Sedan,Excellent,1,Partial,None,Salvage,20994,"Apple CarPlay, Backup Camera, Heated Seats, Sunroof, Android Auto",New Tires
+83,C083,Toyota,RAV4,2020,Touring,MZKW4GU4HTANC600N,54592,Gasoline,Manual,3.5L V6,FWD,Silver,Beige,Truck,Needs Work,4,None,None,Rebuilt,49968,"Leather Seats, Bluetooth, Remote Start, Heated Seats",Certified Pre-Owned
+84,C084,Nissan,Murano,2022,LE,GJ4VYXCZA4W4SYDSU,97512,Hybrid,Automatic,3.1L V6,RWD,Silver,Black,Sedan,Fair,1,Full,Minor,Clean,54850,"Remote Start, Navigation, Sunroof",Dealer Maintained
+85,C085,Kia,Sorento,2023,Sport,XAF6HFNP8VZM01BZS,115739,Diesel,CVT,4.6L V6,FWD,Gray,Brown,Hatchback,Excellent,4,None,Major,Rebuilt,23203,"Navigation, Android Auto, Backup Camera, Apple CarPlay, Heated Seats",
+86,C086,Ford,Fusion,2023,Touring,6VN91GVHJ2UUMUS06,68583,Hybrid,CVT,4.3L V6,RWD,Black,Beige,Truck,Needs Work,3,None,None,Rebuilt,51287,"Backup Camera, Lane Assist, Blind Spot Monitor, Sunroof, Heated Seats",New Tires
+87,C087,Hyundai,Santa Fe,2016,LE,C873HSP76ML9RW6NZ,80957,Electric,Automatic,3.0L I4,AWD,Green,Beige,Coupe,Good,1,Partial,Minor,Lien,46894,"Leather Seats, Blind Spot Monitor, Lane Assist, Bluetooth, Apple CarPlay",New Tires
+88,C088,Hyundai,Elantra,2023,XLE,6VDVDRUHYPA06R2LS,11387,Diesel,CVT,3.0L I4,4WD,Silver,Gray,Coupe,Excellent,3,Partial,Major,Lien,8964,"Navigation, Backup Camera, Android Auto",Certified Pre-Owned
+89,C089,Kia,Optima,2020,XLE,94E9YWUN3VRPVR37Y,29953,Gasoline,CVT,4.6L I4,AWD,Black,Beige,Truck,Excellent,2,None,None,Salvage,25346,"Sunroof, Heated Seats",Recent Service
+90,C090,Hyundai,Elantra,2017,SE,11A8K1ZFEG1458H40,45211,Hybrid,CVT,2.0L V6,AWD,Red,Gray,SUV,Good,3,None,Major,Lien,27794,"Android Auto, Lane Assist, Sunroof",Recent Service
+91,C091,Nissan,Altima,2018,Base,HVWSU6H5CERZF9M3W,26861,Diesel,Manual,4.2L I4,FWD,Black,Black,Sedan,Excellent,4,Partial,Minor,Salvage,27820,"Bluetooth, Lane Assist, Remote Start, Leather Seats",Certified Pre-Owned
+92,C092,Kia,Optima,2016,Touring,R4P57TGYRTD7UTX2U,84133,Hybrid,CVT,2.9L I4,RWD,Silver,Beige,Coupe,Excellent,3,Partial,None,Rebuilt,32265,"Bluetooth, Remote Start",New Tires
+93,C093,Volkswagen,Jetta,2021,Sport,16SFJ49A98HAV3LP9,114108,Hybrid,Automatic,2.7L I4,AWD,Silver,Brown,Sedan,Fair,4,None,None,Lien,35908,"Android Auto, Leather Seats, Remote Start, Blind Spot Monitor, Bluetooth",Certified Pre-Owned
+94,C094,Kia,Sportage,2022,Touring,WLBDVXNRJLE9HHZWG,106785,Gasoline,CVT,4.8L I4,FWD,Red,Gray,Hatchback,Fair,2,Partial,Major,Lien,31085,"Leather Seats, Lane Assist, Bluetooth, Navigation",Recent Service
+95,C095,Nissan,Murano,2023,Touring,M45DSBAU75PNLH3VB,14362,Diesel,Manual,2.7L V6,FWD,Gray,Black,Truck,Excellent,4,Full,Major,Lien,29394,"Remote Start, Heated Seats, Backup Camera",Recent Service
+96,C096,Nissan,Sentra,2017,Sport,3CV5U036B6X321TCU,15947,Gasoline,Automatic,4.0L I4,FWD,Red,Gray,Coupe,Fair,3,Full,None,Salvage,32631,"Bluetooth, Remote Start, Apple CarPlay, Backup Camera, Lane Assist",New Tires
+97,C097,BMW,X3,2018,LE,F1G3S7ZSF1N2SS1FL,19923,Electric,Automatic,2.4L V6,AWD,Gray,Beige,Hatchback,Excellent,4,Partial,Minor,Lien,42246,"Sunroof, Remote Start, Android Auto, Leather Seats, Lane Assist",Certified Pre-Owned
+98,C098,Hyundai,Sonata,2019,Base,89V5WC9JC7YRPTX98,48544,Electric,Automatic,2.7L I4,4WD,Red,Gray,Truck,Excellent,4,Full,Major,Rebuilt,51423,"Sunroof, Lane Assist, Heated Seats, Apple CarPlay",
+99,C099,BMW,X5,2016,LE,SMKMXKSW27BE7EHZA,62949,Diesel,CVT,4.0L V6,RWD,Gray,Brown,Truck,Fair,4,None,Minor,Rebuilt,18511,"Remote Start, Apple CarPlay",Dealer Maintained
+100,C100,Hyundai,Elantra,2017,Sport,32XRS09PD7WWJTXH7,85925,Hybrid,Automatic,4.7L I4,4WD,White,Beige,Hatchback,Good,3,None,None,Salvage,37248,"Leather Seats, Sunroof, Remote Start, Backup Camera, Bluetooth",Recent Service

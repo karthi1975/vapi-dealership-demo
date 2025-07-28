@@ -9,7 +9,9 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon src/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "import-inventory": "node scripts/importInventory.js",
+    "migrate": "node scripts/runMigrations.js"
   },
   "keywords": ["vapi", "voice-ai", "dealership", "demo"],
   "author": "Your Name",
@@ -25,7 +27,10 @@
     "uuid": "^9.0.1",
     "helmet": "^7.0.0",
     "compression": "^1.7.4",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "csv-parser": "^3.0.0",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.7"
   },
   "devDependencies": {
     "nodemon": "^3.0.2"
