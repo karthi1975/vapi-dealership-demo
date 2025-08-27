@@ -127,18 +127,24 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Start server
-app.listen(PORT, () => {
+// Start server with error handling
+const server = app.listen(PORT, '0.0.0.0', () => {
     console.log('🚀 Server starting up...');
     console.log(`📡 Server running on port ${PORT}`);
     console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`📊 Health check: http://localhost:${PORT}/health`);
+    console.log(`📊 Health check: http://0.0.0.0:${PORT}/health`);
     
     // Start communication scheduler - Disabled as we're not using Supabase
     // communicationScheduler.start();
     console.log('📧 Communication scheduler disabled (not using Supabase)');
     
     console.log('✅ Server ready to receive requests');
+});
+
+// Handle server errors
+server.on('error', (error) => {
+    console.error('❌ Server error:', error);
+    process.exit(1);
 });
 
 // Graceful shutdown

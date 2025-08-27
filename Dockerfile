@@ -21,8 +21,12 @@ ENV NODE_ENV=production
 ENV PORT=3000
 ENV EMAIL_SERVICE=disabled
 
-# Expose port
+# Expose port (Railway uses PORT env variable)
 EXPOSE 3000
 
+# Health check 
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/health', (r) => {if(r.statusCode !== 200) throw new Error()})"
+
 # Start the application
-CMD ["npm", "start"]
+CMD ["node", "src/server.js"]
