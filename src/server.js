@@ -4,10 +4,13 @@ const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
 require('dotenv').config();
-// const communicationScheduler = require('./services/communicationScheduler'); // Disabled - not using Supabase
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+console.log('🚀 Starting application...');
+console.log('📌 Port:', PORT);
+console.log('📌 Node version:', process.version);
 
 // Security middleware
 app.use(helmet({
@@ -127,31 +130,42 @@ app.use((err, req, res, next) => {
     });
 });
 
-// Start server with error handling
-const server = app.listen(PORT, '0.0.0.0', () => {
+// Start server 
+const server = app.listen(PORT, () => {
     console.log('🚀 Server starting up...');
     console.log(`📡 Server running on port ${PORT}`);
     console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
-    console.log(`📊 Health check: http://0.0.0.0:${PORT}/health`);
-    
-    // Start communication scheduler - Disabled as we're not using Supabase
-    // communicationScheduler.start();
-    console.log('📧 Communication scheduler disabled (not using Supabase)');
-    
+    console.log(`📊 Health check available at: /health`);
     console.log('✅ Server ready to receive requests');
 });
 
 // Handle server errors
 server.on('error', (error) => {
     console.error('❌ Server error:', error);
+    if (error.code === 'EADDRINUSE') {
+        console.error(`Port ${PORT} is already in use`);
+    }
     process.exit(1);
 });
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
     console.log('🛑 SIGTERM received, shutting down gracefully...');
-    // communicationScheduler.stop(); // Disabled - not using Supabase
-    process.exit(0);
+    server.close(() => {
+        console.log('Server closed');
+        process.exit(0);
+    });
+});
+
+// Handle uncaught errors
+process.on('uncaughtException', (error) => {
+    console.error('❌ Uncaught Exception:', error);
+    process.exit(1);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+    console.error('❌ Unhandled Rejection at:', promise, 'reason:', reason);
+    process.exit(1);
 });
 
 module.exports = app;
