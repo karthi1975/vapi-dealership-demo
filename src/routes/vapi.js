@@ -16,7 +16,9 @@ router.post('/webhook', async (req, res) => {
         if (event === 'call-ended') {
             console.log('📱 Call ended:', call?.id);
             console.log('⏱️ Duration:', call?.duration);
-            console.log('📝 Transcript:', call?.transcript);
+            console.log('📝 Transcript available?', !!call?.transcript);
+            console.log('📝 Messages available?', !!call?.messages, call?.messages?.length || 0);
+            console.log('📝 Call object keys:', call ? Object.keys(call) : 'none');
             
             // Try to save the transcript to Google Sheets if we have it
             if (call?.transcript || call?.messages) {
