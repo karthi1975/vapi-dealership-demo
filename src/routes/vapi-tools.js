@@ -194,12 +194,30 @@ async function handleLeadQualification(args, res) {
         
         // Write lead data to Google Sheets
         try {
+            // Try to get conversation transcript from various sources
+            let transcript = '';
+            
+            // Check if we have messages in the request
+            if (req.body?.message?.messages) {
+                transcript = req.body.message.messages.map(msg => 
+                    `${msg.role}: ${msg.content}`
+                ).join('\n');
+            } else if (req.body?.call?.transcript) {
+                transcript = req.body.call.transcript;
+            } else if (req.body?.transcript) {
+                transcript = req.body.transcript;
+            } else if (req.body?.conversation) {
+                transcript = req.body.conversation;
+            }
+            
             const leadData = {
                 customerInfo: customerInfo,
                 intent: customerInfo?.intent || 'browse',
                 summary: `${customerInfo.name} - ${customerInfo.preferredMake || ''} ${customerInfo.preferredModel || ''} - Budget: $${customerInfo.budget || 'N/A'} - Timeline: ${customerInfo.timeline || 'N/A'}`,
                 transferredTo: 'sales',
-                callId: callId
+                callId: callId,
+                transcript: transcript || 'No transcript available',
+                conversation: transcript
             };
             
             await googleSheets.appendLeadData(leadData);

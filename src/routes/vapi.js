@@ -17,6 +17,41 @@ router.post('/webhook', async (req, res) => {
             console.log('📱 Call ended:', call?.id);
             console.log('⏱️ Duration:', call?.duration);
             console.log('📝 Transcript:', call?.transcript);
+            
+            // Try to save the transcript to Google Sheets if we have it
+            if (call?.transcript || call?.messages) {
+                const googleSheets = require('../services/googleSheets');
+                
+                // Format the conversation
+                let transcript = '';
+                if (call?.messages && Array.isArray(call.messages)) {
+                    transcript = call.messages.map(msg => 
+                        `${msg.role || 'unknown'}: ${msg.content || msg.message || ''}`
+                    ).join('\n');
+                } else if (call?.transcript) {
+                    transcript = call.transcript;
+                }
+                
+                // Create lead data from call end event
+                const leadData = {
+                    customerInfo: {
+                        name: call?.customer?.name || 'Unknown',
+                        phoneNumber: call?.customer?.number || 'Unknown'
+                    },
+                    callDuration: call?.duration || 'N/A',
+                    outcome: 'Call Ended',
+                    summary: `Call ${call?.id} ended after ${call?.duration || 0} seconds`,
+                    transcript: transcript || 'No transcript available',
+                    callId: call?.id
+                };
+                
+                try {
+                    await googleSheets.appendLeadData(leadData);
+                    console.log('✅ Call transcript saved to Google Sheets');
+                } catch (error) {
+                    console.error('❌ Failed to save transcript:', error.message);
+                }
+            }
         }
         
         res.json({ 

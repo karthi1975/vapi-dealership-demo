@@ -88,13 +88,14 @@ class GoogleSheetsService {
                 leadData.callDuration || 'In Progress',         // Call Duration
                 leadData.outcome || 'Transferred to Sales',     // Outcome
                 leadScore,                                      // Lead Score
-                leadData.summary || ''                          // Summary
+                leadData.summary || '',                         // Summary
+                leadData.transcript || leadData.conversation || ''  // Full Conversation Transcript
             ];
 
             // Append the row to the spreadsheet
             const response = await this.sheets.spreadsheets.values.append({
                 spreadsheetId: this.spreadsheetId,
-                range: 'Sheet1!A:I',
+                range: 'Sheet1!A:J',
                 valueInputOption: 'USER_ENTERED',
                 requestBody: {
                     values: [row]
@@ -147,12 +148,13 @@ class GoogleSheetsService {
                 'Call Duration',
                 'Outcome',
                 'Lead Score',
-                'Summary'
+                'Summary',
+                'Conversation Transcript'
             ];
 
             await this.sheets.spreadsheets.values.update({
                 spreadsheetId: this.spreadsheetId,
-                range: 'Sheet1!A1:I1',
+                range: 'Sheet1!A1:J1',
                 valueInputOption: 'USER_ENTERED',
                 requestBody: {
                     values: [headers]
