@@ -1,5 +1,5 @@
 const nodemailer = require('nodemailer');
-const supabaseEnhanced = require('./supabaseEnhanced');
+// const supabaseEnhanced = require('./supabaseEnhanced'); // Disabled - not using Supabase
 
 class EmailService {
     constructor() {
@@ -158,8 +158,9 @@ class EmailService {
             .trim();
     }
 
-    // Process pending emails from database
+    // Process pending emails from database - DISABLED (not using Supabase)
     async processPendingEmails() {
+        return; // Disabled - not using Supabase
         if (!this.initialized) return;
 
         try {
@@ -217,8 +218,9 @@ class EmailService {
         return { success: true, mockDelivery: true };
     }
 
-    // Process pending SMS
+    // Process pending SMS - DISABLED (not using Supabase)
     async processPendingSMS() {
+        return; // Disabled - not using Supabase
         try {
             const pendingSMS = await supabaseEnhanced.getPendingCommunications();
             

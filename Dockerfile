@@ -1,6 +1,9 @@
 # Use Node.js 20 LTS
 FROM node:20-alpine
 
+# Force rebuild - Supabase disabled
+ENV REBUILD_DATE=2024-08-27-v2
+
 # Set working directory
 WORKDIR /app
 

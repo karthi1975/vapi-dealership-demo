@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const supabaseEnhanced = require('../services/supabaseEnhanced');
+// const supabaseEnhanced = require('../services/supabaseEnhanced'); // Disabled - not using Supabase
 const emailService = require('../services/emailService');
 
 // Display inventory from shared link

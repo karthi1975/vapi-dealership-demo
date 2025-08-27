@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const supabaseEnhanced = require('../services/supabaseEnhanced');
+// const supabaseEnhanced = require('../services/supabaseEnhanced'); // Disabled - not using Supabase
 const googleSheets = require('../services/googleSheets');
 const emailService = require('../services/emailService');
 const { v4: uuidv4 } = require('uuid');
