@@ -91,6 +91,20 @@ async function handleToolCalls(req, res) {
             args.toolCallId = toolCall.id;
         }
         
+        // Add messages/transcript to args if available
+        if (req.body.message?.messages) {
+            args.messages = req.body.message.messages;
+            console.log(`   📝 Found ${req.body.message.messages.length} messages`);
+        }
+        if (req.body.call?.transcript) {
+            args.transcript = req.body.call.transcript;
+            console.log(`   📝 Found transcript`);
+        }
+        if (req.body.call?.messages) {
+            args.messages = req.body.call.messages;
+            console.log(`   📝 Found call messages`);
+        }
+        
         console.log(`🛠️ Tool: ${functionName} (ID: ${toolCall.id || 'none'})`);
         
         // Route to the appropriate function
