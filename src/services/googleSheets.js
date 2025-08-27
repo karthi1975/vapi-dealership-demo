@@ -1,4 +1,5 @@
 const { google } = require('googleapis');
+const googleSheetsWebhook = require('./googleSheetsWebhook');
 
 class GoogleSheetsService {
     constructor() {
@@ -67,9 +68,10 @@ class GoogleSheetsService {
 
     async appendLeadData(leadData) {
         try {
+            // If service account is not initialized, try webhook
             if (!this.initialized) {
-                console.error('❌ Google Sheets not initialized');
-                return null;
+                console.log('⚠️ Service account not initialized, trying webhook...');
+                return await googleSheetsWebhook.appendLeadData(leadData);
             }
 
             // Format the data for the spreadsheet matching your columns
