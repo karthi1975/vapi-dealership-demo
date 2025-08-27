@@ -10,15 +10,13 @@ const {
     handleCalculatePayment 
 } = require('./vapi-tools-sales');
 
-// Log all requests to vapi-tools
+// Log all requests to vapi-tools (minimal logging)
 router.use((req, res, next) => {
-    console.log('🔍 VAPI-TOOLS Request:', {
-        method: req.method,
-        path: req.path,
-        fullUrl: req.originalUrl,
-        headers: req.headers,
-        body: req.body
-    });
+    console.log(`🔍 VAPI-TOOLS: ${req.method} ${req.path}`);
+    // Only log function name if it's a tool call
+    if (req.body?.message?.toolCalls?.[0]) {
+        console.log(`   Function: ${req.body.message.toolCalls[0].function.name}`);
+    }
     next();
 });
 
@@ -40,9 +38,11 @@ router.get('/', (req, res) => {
 
 // Handle POST to root path (VAPI sends here)
 router.post('/', async (req, res) => {
-    console.log('🔧 VAPI POST to root path received');
-    console.log('📥 Request type:', req.body?.message?.type);
-    console.log('📦 Full body:', JSON.stringify(req.body));
+    // Reduced logging - only log request type
+    const messageType = req.body?.message?.type;
+    if (messageType) {
+        console.log(`🔧 VAPI request type: ${messageType}`);
+    }
     
     // Check if this is a tool-calls message
     if (req.body?.message?.type === 'tool-calls') {
@@ -72,8 +72,6 @@ router.post('/', async (req, res) => {
 // Common handler for tool-calls
 async function handleToolCalls(req, res) {
     try {
-        console.log('🔧 VAPI tool-calls handler processing');
-        console.log('📥 Request body:', JSON.stringify(req.body, null, 2));
         
         // Extract the tool call from VAPI's format
         const { message } = req.body;
@@ -93,9 +91,7 @@ async function handleToolCalls(req, res) {
             args.toolCallId = toolCall.id;
         }
         
-        console.log(`🛠️ Tool called: ${functionName}`);
-        console.log('📋 Tool call ID:', toolCall.id || 'not provided');
-        console.log('📋 Arguments:', args);
+        console.log(`🛠️ Tool: ${functionName} (ID: ${toolCall.id || 'none'})`);
         
         // Route to the appropriate function
         switch (functionName) {
@@ -152,9 +148,9 @@ async function handleLeadQualification(args, res) {
     
     // Process the lead qualification
     try {
-        // Create or update customer with all information including vehicle preferences
+        // Skip Supabase - just prepare customer data
         if (customerInfo?.phoneNumber) {
-            let customer = await supabase.getCustomerByPhone(customerInfo.phoneNumber);
+            // let customer = await supabase.getCustomerByPhone(customerInfo.phoneNumber); // Disabled
             
             const customerData = {
                 phone_number: customerInfo.phoneNumber,
@@ -167,10 +163,9 @@ async function handleLeadQualification(args, res) {
                 purchase_timeline: customerInfo.timeline || null
             };
             
-            if (!customer) {
-                console.log('👤 Creating new customer with preferences...');
-                customer = await supabase.createCustomer(customerData);
-                console.log('✅ Customer created:', customer?.id);
+            // Skip Supabase customer creation
+            console.log('👤 Processing lead data...');
+            /* Disabled - not using Supabase
             } else {
                 console.log('📝 Updating existing customer preferences...');
                 // Update existing customer with new preferences
@@ -181,8 +176,8 @@ async function handleLeadQualification(args, res) {
                 //     vehicleType: customerInfo.vehicleType,
                 //     timeline: customerInfo.timeline
                 // }); // Disabled - not using Supabase
-                console.log('✅ Customer updated:', customer?.id);
-            }
+                // console.log('✅ Customer updated:', customer?.id);
+            } */
         }
         
         const qualification = {
