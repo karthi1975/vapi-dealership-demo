@@ -1,6 +1,6 @@
 // Sales Agent Tool Handlers for VAPI
 
-const supabase = require('../services/supabase');
+// const supabase = require('../services/supabase'); // Disabled - not using Supabase
 
 // Mock inventory data (replace with real database queries)
 const mockInventory = [

@@ -17,7 +17,9 @@
       "Bash(npm install)",
       "Bash(ls:*)",
       "Bash(chmod:*)",
-      "Bash(railway variables:*)"
+      "Bash(railway variables:*)",
+      "Bash(npm start)",
+      "Bash(pkill:*)"
     ],
     "deny": []
   }

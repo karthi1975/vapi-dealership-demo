@@ -45,12 +45,13 @@ async function handleTransferToAgent(args, res) {
         
         // Store context in database for the next agent
         if (context) {
-            // await supabase.storeCallContext({ // Disabled - not using Supabase\n            /*
-                call_id: callId,
-                context: context,
-                target_agent: targetAgent,
-                timestamp: new Date().toISOString()
-            }); */
+            // Disabled - not using Supabase
+            // await supabase.storeCallContext({
+            //     call_id: callId,
+            //     context: context,
+            //     target_agent: targetAgent,
+            //     timestamp: new Date().toISOString()
+            // });
         }
         
         // Log the transfer - Disabled - not using Supabase
