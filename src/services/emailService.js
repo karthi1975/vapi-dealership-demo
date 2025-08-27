@@ -29,15 +29,20 @@ class EmailService {
                     }
                 });
             } else if (process.env.EMAIL_SERVICE === 'smtp') {
-                this.transporter = nodemailer.createTransport({
-                    host: process.env.SMTP_HOST,
-                    port: process.env.SMTP_PORT || 587,
-                    secure: process.env.SMTP_SECURE === 'true',
-                    auth: {
-                        user: process.env.SMTP_USER,
-                        pass: process.env.SMTP_PASS
-                    }
-                });
+                // Only configure SMTP if credentials are provided
+                if (process.env.SMTP_USER && process.env.SMTP_PASS) {
+                    this.transporter = nodemailer.createTransport({
+                        host: process.env.SMTP_HOST,
+                        port: process.env.SMTP_PORT || 587,
+                        secure: process.env.SMTP_SECURE === 'true',
+                        auth: {
+                            user: process.env.SMTP_USER,
+                            pass: process.env.SMTP_PASS
+                        }
+                    });
+                } else {
+                    console.log('⚠️ SMTP configured but missing credentials - email service disabled');
+                }
             }
 
             if (this.transporter) {
