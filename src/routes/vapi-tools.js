@@ -192,17 +192,15 @@ async function handleLeadQualification(args, res) {
             // Try to get conversation transcript from various sources
             let transcript = '';
             
-            // Check if we have messages in the request
-            if (req.body?.message?.messages) {
-                transcript = req.body.message.messages.map(msg => 
+            // Check if we have transcript in args
+            if (args.messages) {
+                transcript = args.messages.map(msg => 
                     `${msg.role}: ${msg.content}`
                 ).join('\n');
-            } else if (req.body?.call?.transcript) {
-                transcript = req.body.call.transcript;
-            } else if (req.body?.transcript) {
-                transcript = req.body.transcript;
-            } else if (req.body?.conversation) {
-                transcript = req.body.conversation;
+            } else if (args.transcript) {
+                transcript = args.transcript;
+            } else if (args.conversation) {
+                transcript = args.conversation;
             }
             
             const leadData = {
