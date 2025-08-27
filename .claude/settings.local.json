@@ -16,7 +16,8 @@
       "WebFetch(domain:vapi.ai)",
       "Bash(npm install)",
       "Bash(ls:*)",
-      "Bash(chmod:*)"
+      "Bash(chmod:*)",
+      "Bash(railway variables:*)"
     ],
     "deny": []
   }

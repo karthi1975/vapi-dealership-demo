@@ -10,6 +10,12 @@ class EmailService {
 
     async init() {
         try {
+            // Skip initialization if email service is disabled
+            if (!process.env.EMAIL_SERVICE || process.env.EMAIL_SERVICE === 'disabled') {
+                console.log('⚠️ Email service is disabled');
+                return;
+            }
+            
             // Configure email transporter based on environment
             if (process.env.EMAIL_SERVICE === 'gmail') {
                 this.transporter = nodemailer.createTransport({
