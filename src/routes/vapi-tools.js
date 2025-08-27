@@ -72,6 +72,12 @@ router.post('/', async (req, res) => {
 // Common handler for tool-calls
 async function handleToolCalls(req, res) {
     try {
+        // Log the entire request structure to debug
+        console.log('📦 VAPI Request Structure:');
+        console.log('  - Has message?', !!req.body?.message);
+        console.log('  - Has call?', !!req.body?.call);
+        console.log('  - Message keys:', req.body?.message ? Object.keys(req.body.message) : 'none');
+        console.log('  - Call keys:', req.body?.call ? Object.keys(req.body.call) : 'none');
         
         // Extract the tool call from VAPI's format
         const { message } = req.body;
@@ -149,7 +155,12 @@ router.post('/tool-calls', handleToolCalls);
 async function handleLeadQualification(args, res) {
     const { customerInfo, callId } = args;
     
-    console.log('🔍 Lead qualification processing:', { customerInfo, callId });
+    console.log('🔍 Lead qualification processing');
+    console.log('  - Has customerInfo?', !!customerInfo);
+    console.log('  - Has callId?', !!callId);
+    console.log('  - Has messages?', !!args.messages, args.messages?.length || 0);
+    console.log('  - Has transcript?', !!args.transcript);
+    console.log('  - Args keys:', Object.keys(args));
     
     if (!customerInfo || !callId) {
         return res.json({
