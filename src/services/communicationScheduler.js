@@ -13,19 +13,21 @@ class CommunicationScheduler {
             return;
         }
 
-        // Process pending emails every minute
-        const emailJob = cron.schedule('* * * * *', async () => {
-            console.log('📧 Processing pending emails...');
-            await emailService.processPendingEmails();
-        });
-        this.jobs.push(emailJob);
+        // Disabled - causing fetch errors
+        // Process pending emails every 5 minutes (reduced frequency)
+        // const emailJob = cron.schedule('*/5 * * * *', async () => {
+        //     console.log('📧 Processing pending emails...');
+        //     await emailService.processPendingEmails();
+        // });
+        // this.jobs.push(emailJob);
 
-        // Process pending SMS every 30 seconds
-        const smsJob = cron.schedule('*/30 * * * * *', async () => {
-            console.log('📱 Processing pending SMS...');
-            await emailService.processPendingSMS();
-        });
-        this.jobs.push(smsJob);
+        // Disabled - causing fetch errors  
+        // Process pending SMS - disabled as SMS is not configured
+        // const smsJob = cron.schedule('*/30 * * * * *', async () => {
+        //     console.log('📱 Processing pending SMS...');
+        //     await emailService.processPendingSMS();
+        // });
+        // this.jobs.push(smsJob);
 
         // Clean up old links daily at 2 AM
         const cleanupJob = cron.schedule('0 2 * * *', async () => {

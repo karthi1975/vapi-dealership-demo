@@ -4,7 +4,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 const morgan = require('morgan');
 require('dotenv').config();
-const communicationScheduler = require('./services/communicationScheduler');
+// const communicationScheduler = require('./services/communicationScheduler'); // Disabled - not using Supabase
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -134,9 +134,9 @@ app.listen(PORT, () => {
     console.log(`🌍 Environment: ${process.env.NODE_ENV || 'development'}`);
     console.log(`📊 Health check: http://localhost:${PORT}/health`);
     
-    // Start communication scheduler
-    communicationScheduler.start();
-    console.log('📧 Communication scheduler started');
+    // Start communication scheduler - Disabled as we're not using Supabase
+    // communicationScheduler.start();
+    console.log('📧 Communication scheduler disabled (not using Supabase)');
     
     console.log('✅ Server ready to receive requests');
 });
@@ -144,7 +144,7 @@ app.listen(PORT, () => {
 // Graceful shutdown
 process.on('SIGTERM', () => {
     console.log('🛑 SIGTERM received, shutting down gracefully...');
-    communicationScheduler.stop();
+    // communicationScheduler.stop(); // Disabled - not using Supabase
     process.exit(0);
 });
 

@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const supabase = require('../services/supabase');
+// const supabase = require('../services/supabase'); // Disabled - not using Supabase
 const googleSheets = require('../services/googleSheets');
 const { handleTransferToAgent, handleGetCallContext } = require('./vapi-tools-transfer');
 const { 
@@ -174,13 +174,13 @@ async function handleLeadQualification(args, res) {
             } else {
                 console.log('📝 Updating existing customer preferences...');
                 // Update existing customer with new preferences
-                customer = await supabase.updateCustomerPreferences(customer.id, {
-                    make: customerInfo.preferredMake,
-                    model: customerInfo.preferredModel,
-                    budget: customerInfo.budget,
-                    vehicleType: customerInfo.vehicleType,
-                    timeline: customerInfo.timeline
-                });
+                // customer = await supabase.updateCustomerPreferences(customer.id, {
+                //     make: customerInfo.preferredMake,
+                //     model: customerInfo.preferredModel,
+                //     budget: customerInfo.budget,
+                //     vehicleType: customerInfo.vehicleType,
+                //     timeline: customerInfo.timeline
+                // }); // Disabled - not using Supabase
                 console.log('✅ Customer updated:', customer?.id);
             }
         }
@@ -509,7 +509,8 @@ router.post('/function/testDriveScheduling', async (req, res) => {
             notes: `Scheduled via VAPI call`
         };
 
-        const booking = await supabase.createTestDriveBooking(bookingData);
+        // const booking = await supabase.createTestDriveBooking(bookingData); // Disabled - not using Supabase
+        const booking = { id: 'test-' + Date.now(), ...bookingData };
 
         res.json({
             result: `Perfect! I've scheduled your test drive for ${preferredTime?.date} at ${preferredTime?.time}. You'll receive a confirmation shortly. Is there anything else I can help you with?`,
@@ -545,7 +546,8 @@ router.post('/function/financeConsultation', async (req, res) => {
             notes: `Application started via VAPI call`
         };
 
-        const application = await supabase.createFinancingApplication(applicationData);
+        // const application = await supabase.createFinancingApplication(applicationData); // Disabled - not using Supabase  
+        const application = { id: 'finance-' + Date.now(), ...applicationData };
 
         // Calculate approval likelihood
         const approvalLikelihood = creditScore > 650 ? 'high' : creditScore > 550 ? 'medium' : 'low';
@@ -703,7 +705,7 @@ router.post('/function/endCall', async (req, res) => {
             summary: summary || 'Call completed successfully'
         };
 
-        await supabase.updateCall(callId, updateData);
+        // await supabase.updateCall(callId, updateData); // Disabled - not using Supabase
 
         res.json({
             result: "Thank you for calling! We appreciate your business and look forward to serving you. Have a great day!",

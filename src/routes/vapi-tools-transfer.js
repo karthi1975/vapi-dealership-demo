@@ -1,6 +1,6 @@
 // Agent Transfer Handler for VAPI Multi-Agent System
 
-const supabase = require('../services/supabase');
+// const supabase = require('../services/supabase'); // Disabled - not using Supabase
 
 // Assistant IDs mapping (replace with your actual VAPI assistant IDs)
 const ASSISTANT_IDS = {
@@ -45,22 +45,22 @@ async function handleTransferToAgent(args, res) {
         
         // Store context in database for the next agent
         if (context) {
-            await supabase.storeCallContext({
+            // await supabase.storeCallContext({ // Disabled - not using Supabase\n            /*
                 call_id: callId,
                 context: context,
                 target_agent: targetAgent,
                 timestamp: new Date().toISOString()
-            });
+            }); */
         }
         
-        // Log the transfer
-        await supabase.logTransfer({
-            call_id: callId,
-            from_agent: context?.currentAgent || 'leadQualifier',
-            to_agent: targetAgent,
-            reason: context?.intent || 'customer_request',
-            conversation_context: context
-        });
+        // Log the transfer - Disabled - not using Supabase
+        // await supabase.logTransfer({
+        //     call_id: callId,
+        //     from_agent: context?.currentAgent || 'leadQualifier',
+        //     to_agent: targetAgent,
+        //     reason: context?.intent || 'customer_request',
+        //     conversation_context: context
+        // });
         
         // Handle human transfer specially
         if (targetAgent === 'human') {
