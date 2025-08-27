@@ -11,8 +11,31 @@ class GoogleSheetsService {
 
     async init() {
         try {
+            // Check for required environment variables
+            if (!process.env.GOOGLE_SHEETS_CREDENTIALS) {
+                console.log('⚠️ Google Sheets: GOOGLE_SHEETS_CREDENTIALS not set');
+                return;
+            }
+            
+            if (!process.env.SPREADSHEET_ID) {
+                console.log('⚠️ Google Sheets: SPREADSHEET_ID not set');
+                return;
+            }
+            
             // Parse the credentials from environment variable
-            const credentials = JSON.parse(process.env.GOOGLE_SHEETS_CREDENTIALS || '{}');
+            let credentials;
+            try {
+                credentials = JSON.parse(process.env.GOOGLE_SHEETS_CREDENTIALS);
+            } catch (parseError) {
+                console.error('❌ Failed to parse GOOGLE_SHEETS_CREDENTIALS:', parseError.message);
+                return;
+            }
+            
+            // Validate required fields in credentials
+            if (!credentials.client_email || !credentials.private_key) {
+                console.error('❌ Google Sheets credentials missing required fields (client_email or private_key)');
+                return;
+            }
             
             // Create auth client
             this.auth = new google.auth.GoogleAuth({
@@ -22,8 +45,21 @@ class GoogleSheetsService {
 
             // Get sheets API
             this.sheets = google.sheets({ version: 'v4', auth: this.auth });
-            this.initialized = true;
-            console.log('✅ Google Sheets service initialized');
+            
+            // Test the connection
+            try {
+                await this.sheets.spreadsheets.get({
+                    spreadsheetId: this.spreadsheetId
+                });
+                this.initialized = true;
+                console.log('✅ Google Sheets service initialized and connected');
+            } catch (testError) {
+                console.error('❌ Google Sheets connection test failed:', testError.message);
+                console.log('   Please check:');
+                console.log('   1. The service account has access to the spreadsheet');
+                console.log('   2. The SPREADSHEET_ID is correct');
+                console.log('   3. Share the spreadsheet with:', credentials.client_email);
+            }
         } catch (error) {
             console.error('❌ Failed to initialize Google Sheets:', error.message);
         }
